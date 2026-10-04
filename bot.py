@@ -12,7 +12,7 @@ from telegram.ext import (
 # تنظیمات
 # =========================
 
-BOT_TOKEN = "8882897095:AAFu1y-HieT8uW_8WT1cdjajnKzkM4opqhA"
+BOT_TOKEN = os.getenv("BOT_TOKEN")
 
 GAME_URL = os.getenv(
     "GAME_URL",
