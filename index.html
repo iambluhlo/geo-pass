@@ -1,0 +1,1776 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>گذرنامه جغرافیا</title>
+<meta name="theme-color" content="#152238">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="گذرنامه">
+<link rel="manifest" id="pwa-manifest">
+<link rel="apple-touch-icon" id="pwa-apple-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#152238;
+    --ink-2:#1e3155;
+    --ink-3:#233a63;
+    --paper:#f4ecd8;
+    --paper-dim:#e7dcbe;
+    --gold:#c9a24b;
+    --gold-dim:#a5813a;
+    --teal:#3a8079;
+    --red:#c0564a;
+    --line: rgba(244,236,216,0.18);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Vazirmatn', sans-serif;
+    background:
+      radial-gradient(circle at 15% 10%, #1c2e4f 0%, transparent 45%),
+      radial-gradient(circle at 90% 85%, #1a2c4c 0%, transparent 50%),
+      var(--ink);
+    color:var(--paper);
+    min-height:100vh;
+    padding:28px 16px 60px;
+  }
+  .wrap{max-width:960px;margin:0 auto;}
+
+  /* header */
+  .passport-header{
+    border:1.5px solid var(--gold-dim);
+    border-radius:14px;
+    padding:22px 26px;
+    background:linear-gradient(160deg, var(--ink-2), var(--ink-3));
+    position:relative;
+    overflow:hidden;
+    margin-bottom:22px;
+  }
+  .passport-header::before{
+    content:"";
+    position:absolute; inset:6px;
+    border:1px dashed rgba(201,162,75,0.35);
+    border-radius:9px;
+    pointer-events:none;
+  }
+  .eyebrow{
+    font-size:12px; letter-spacing:.14em; color:var(--gold);
+    font-weight:600; margin:0 0 6px;
+  }
+  h1{
+    font-size: clamp(24px,4vw,34px);
+    margin:0 0 6px;
+    font-weight:800;
+    color:var(--paper);
+  }
+  .sub{color:rgba(244,236,216,0.7); font-size:14px; margin:0;}
+  .serial{
+    position:absolute; left:24px; bottom:18px;
+    font-size:11px; letter-spacing:.08em; color:rgba(244,236,216,0.45);
+    font-variant-numeric: tabular-nums;
+  }
+  .home-btn{
+    position:absolute; top:20px; left:20px;
+    font-family:inherit; cursor:pointer;
+    background:rgba(244,236,216,0.06);
+    border:1px solid rgba(244,236,216,0.25);
+    color:var(--paper);
+    font-size:12.5px; font-weight:600;
+    padding:7px 14px; border-radius:999px;
+    display:flex; align-items:center; gap:5px;
+    transition:all .15s ease;
+  }
+  .home-btn:hover{border-color:var(--gold); color:var(--gold);}
+  .home-btn.hidden{display:none;}
+  .quiz-exit-btn{
+    font-family:inherit; cursor:pointer;
+    background:transparent; border:1px solid rgba(244,236,216,0.25);
+    color:rgba(244,236,216,0.7);
+    font-size:12.5px; font-weight:600;
+    padding:6px 13px; border-radius:999px;
+    transition:all .15s ease;
+  }
+  .quiz-exit-btn:hover{border-color:var(--red); color:#eaa79e;}
+  .quiz-exit-btn.positive:hover{border-color:var(--gold); color:var(--gold);}
+
+  .panel{
+    border:1px solid var(--line);
+    border-radius:14px;
+    background:rgba(244,236,216,0.03);
+    padding:24px;
+    margin-bottom:20px;
+  }
+
+  /* buttons */
+  .btn{
+    font-family:inherit;
+    border:none; cursor:pointer;
+    padding:13px 26px;
+    border-radius:999px;
+    font-size:15px; font-weight:700;
+    background:var(--gold);
+    color:var(--ink);
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+    box-shadow:0 6px 18px rgba(201,162,75,0.18);
+  }
+  .btn:hover{transform:translateY(-2px); background:#d6b565;}
+  .btn:active{transform:translateY(0);}
+  .btn.ghost{
+    background:transparent;
+    color:var(--paper);
+    border:1.5px solid rgba(244,236,216,0.35);
+    box-shadow:none;
+  }
+  .btn.ghost:hover{border-color:var(--gold); color:var(--gold);}
+  .btn:disabled{opacity:.4; cursor:not-allowed; transform:none;}
+  .btn-row{display:flex; gap:12px; flex-wrap:wrap; margin-top:18px;}
+
+  /* chips */
+  .chip-row{display:flex; gap:8px; flex-wrap:wrap;}
+  .chip{
+    font-family:inherit; cursor:pointer;
+    border:1.5px solid rgba(244,236,216,0.25);
+    background:rgba(244,236,216,0.03);
+    color:var(--paper);
+    padding:8px 16px; border-radius:999px;
+    font-size:13.5px; font-weight:600;
+    transition:all .15s ease;
+  }
+  .chip:hover{border-color:var(--gold);}
+  .chip.active{background:var(--gold); color:var(--ink); border-color:var(--gold);}
+
+  /* screens */
+  .screen{display:none;}
+  .screen.active{display:block; animation:fadeIn .35s ease;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+  /* intro */
+  .intro-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:20px 0;}
+  .intro-stat{
+    border:1px solid var(--line); border-radius:10px; padding:14px; text-align:center;
+    background:rgba(244,236,216,0.02);
+  }
+  .intro-stat b{display:block; font-size:22px; color:var(--gold); font-family:'Vazirmatn';}
+  .intro-stat span{font-size:12.5px; color:rgba(244,236,216,0.6);}
+  @media(max-width:560px){.intro-grid{grid-template-columns:1fr 1fr;}}
+
+  /* section title */
+  .section-title{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:16px; flex-wrap:wrap; gap:10px;
+  }
+  .section-title h2{font-size:19px; margin:0; font-weight:700;}
+  .counter-pill{
+    font-size:12.5px; color:var(--paper); background:rgba(201,162,75,0.14);
+    border:1px solid rgba(201,162,75,0.35); padding:5px 12px; border-radius:999px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* learning controls */
+  .learn-controls{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:16px;}
+  .search-box{
+    flex:1; min-width:180px;
+    font-family:inherit; font-size:14px;
+    padding:9px 14px; border-radius:999px;
+    border:1.5px solid rgba(244,236,216,0.25);
+    background:rgba(244,236,216,0.03); color:var(--paper);
+  }
+  .search-box::placeholder{color:rgba(244,236,216,0.4);}
+  .search-box:focus{outline:none; border-color:var(--gold);}
+
+  /* flip cards - learning */
+  .card-grid{
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+    gap:12px;
+  }
+  .flip-card{
+    perspective:800px; height:130px; cursor:pointer;
+  }
+  .flip-inner{
+    position:relative; width:100%; height:100%;
+    transition:transform .55s cubic-bezier(.2,.8,.2,1);
+    transform-style:preserve-3d;
+  }
+  .flip-card.flipped .flip-inner{transform:rotateY(180deg);}
+  .flip-face{
+    position:absolute; inset:0; border-radius:12px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    backface-visibility:hidden; padding:10px; text-align:center;
+    border:1px solid var(--line);
+  }
+  .flip-front{background:linear-gradient(160deg,var(--ink-2),var(--ink-3));}
+  .flip-front .flag{
+    width:64px; height:44px; object-fit:cover; border-radius:5px; margin-bottom:8px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.35); border:1px solid rgba(244,236,216,0.15);
+  }
+  .flip-front .cname{font-size:13px; color:rgba(244,236,216,0.65); font-weight:600;}
+  .flip-back{
+    background:var(--paper); color:var(--ink);
+    transform:rotateY(180deg);
+  }
+  .flip-back .cap-label{font-size:10.5px; color:var(--gold-dim); font-weight:700; letter-spacing:.05em;}
+  .flip-back .cap-name{font-size:16px; font-weight:800; margin-top:3px;}
+  .flip-card.seen .flip-front{box-shadow: inset 0 0 0 1.5px var(--gold);}
+  .empty-note{
+    text-align:center; padding:30px 10px; color:rgba(244,236,216,0.45); font-size:14px;
+  }
+
+  /* map pin (shared) */
+  .map-pin{
+    position:absolute; width:18px; height:18px; margin:-10px 0 0 -9px;
+    background:var(--red); border:2px solid #fff; border-radius:50% 50% 50% 0;
+    transform:rotate(-45deg);
+    box-shadow:0 2px 8px rgba(0,0,0,0.5);
+    animation:pinPulse 1.6s ease-in-out infinite;
+    z-index:2;
+  }
+  @keyframes pinPulse{
+    0%,100%{box-shadow:0 2px 8px rgba(0,0,0,0.5), 0 0 0 0 rgba(192,86,74,0.5);}
+    50%{box-shadow:0 2px 8px rgba(0,0,0,0.5), 0 0 0 9px rgba(192,86,74,0);}
+  }
+
+  /* study mini-map: zoomed/cropped crop centered on the country, not a tiny whole-world thumbnail */
+  .study-map-frame{
+    position:relative; width:100%; height:230px;
+    border-radius:10px; overflow:hidden; margin-bottom:14px;
+    border:1.5px solid rgba(201,162,75,0.4); background:#0d1830;
+  }
+  .study-map-img{
+    position:absolute; top:0; left:0; max-width:none; max-height:none;
+    display:block; will-change:transform;
+  }
+  .study-map-frame .map-pin{left:50%; top:50%;}
+  .study-loc-label{font-size:10.5px; color:var(--gold-dim); font-weight:700; letter-spacing:.05em; margin-bottom:4px;}
+  .study-loc-text{font-size:12.5px; line-height:1.8; color:#3a3020; margin:0 0 14px;}
+
+  /* study flashcard */
+  .study-flip-card{
+    perspective:1200px; max-width:420px; height:600px; margin:20px auto; cursor:pointer;
+  }
+  .study-flip-inner{
+    position:relative; width:100%; height:100%;
+    transition:transform .55s cubic-bezier(.2,.8,.2,1);
+    transform-style:preserve-3d;
+  }
+  .study-flip-card.flipped .study-flip-inner{transform:rotateY(180deg);}
+  .study-face{
+    position:absolute; inset:0; border-radius:16px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    backface-visibility:hidden; padding:22px; text-align:center;
+    border:1.5px solid var(--line);
+  }
+  .study-front{background:linear-gradient(160deg,var(--ink-2),var(--ink-3));}
+  .study-flag{
+    width:150px; height:100px; object-fit:cover; border-radius:8px; margin-bottom:16px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.4); border:1px solid rgba(244,236,216,0.18);
+  }
+  .study-name{font-size:22px; font-weight:800; color:var(--paper); margin-bottom:8px;}
+  .study-hint{font-size:12.5px; color:rgba(244,236,216,0.45);}
+  .study-back{
+    background:var(--paper); color:var(--ink);
+    transform:rotateY(180deg);
+    justify-content:flex-start; overflow-y:auto;
+  }
+  .study-capital{font-size:22px; font-weight:900; margin:4px 0 12px;}
+  .study-map-label{font-size:10.5px; color:var(--gold-dim); font-weight:700; letter-spacing:.05em; margin-bottom:6px;}
+  .fact-list{
+    list-style:none; padding:0; margin:0; width:100%;
+    display:flex; flex-direction:column; gap:8px;
+  }
+  .fact-list li{
+    font-size:13px; line-height:1.7; text-align:right;
+    padding-right:18px; position:relative; color:#3a3020;
+  }
+  .fact-list li::before{
+    content:"✦"; position:absolute; right:0; top:1px; color:var(--gold-dim); font-size:11px;
+  }
+
+  /* quiz config */
+
+  /* quiz type selector */
+  .type-row{display:flex; gap:12px; flex-wrap:wrap; margin:14px 0 22px;}
+  .type-card{
+    flex:1; min-width:180px;
+    font-family:inherit; cursor:pointer; text-align:right;
+    border:1.5px solid rgba(244,236,216,0.2);
+    background:rgba(244,236,216,0.03);
+    color:var(--paper);
+    padding:16px 18px; border-radius:12px;
+    transition:all .15s ease;
+  }
+  .type-card:hover{border-color:var(--gold);}
+  .type-card.active{border-color:var(--gold); background:rgba(201,162,75,0.1);}
+  .type-card .ti{font-size:26px; margin-bottom:6px; display:block;}
+  .type-card .tt{font-size:15px; font-weight:700; display:block; margin-bottom:3px;}
+  .type-card .td{font-size:12.5px; color:rgba(244,236,216,0.55);}
+
+  /* country badge - flag-quiz stimulus */
+  .country-badge{
+    display:inline-flex; align-items:center; justify-content:center;
+    min-width:220px; max-width:100%; padding:20px 30px; margin-bottom:16px;
+    border:1.5px dashed rgba(201,162,75,0.5); border-radius:14px;
+    font-size:24px; font-weight:800; color:var(--gold);
+    background:rgba(201,162,75,0.06);
+  }
+
+  /* flag options for flag-quiz */
+  .opt-flag{padding:12px; display:flex; align-items:center; justify-content:center;}
+  .opt-flag img{
+    width:100%; max-width:150px; height:78px; object-fit:cover; border-radius:6px;
+    border:1px solid rgba(244,236,216,0.15);
+  }
+    height:6px; border-radius:999px; background:rgba(244,236,216,0.1); overflow:hidden; margin-bottom:22px;
+  }
+  .progress-fill{height:100%; background:var(--gold); border-radius:999px; transition:width .4s ease;}
+  .quiz-card{
+    text-align:center; padding:10px 0 4px;
+  }
+  #quiz-flag{margin-bottom:16px;}
+  .quiz-flag{
+    width:150px; height:100px; object-fit:cover; border-radius:8px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.4); border:1px solid rgba(244,236,216,0.18);
+  }
+  .quiz-q{font-size:16px; color:rgba(244,236,216,0.75); margin:0 0 22px;}
+  .options{
+    display:grid; grid-template-columns:1fr 1fr; gap:12px; max-width:560px; margin:0 auto;
+  }
+  @media(max-width:520px){.options{grid-template-columns:1fr;}}
+  .opt{
+    font-family:inherit;
+    border:1.5px solid rgba(244,236,216,0.25);
+    background:rgba(244,236,216,0.03);
+    color:var(--paper);
+    padding:14px 16px; border-radius:10px;
+    font-size:15px; font-weight:600; cursor:pointer;
+    transition:all .15s ease;
+    text-align:center;
+  }
+  .opt:hover:not(:disabled){border-color:var(--gold); background:rgba(201,162,75,0.08);}
+  .opt:disabled{cursor:default;}
+  .opt.correct{border-color:var(--teal); background:rgba(58,128,121,0.25); color:#cdeee9;}
+  .opt.wrong{border-color:var(--red); background:rgba(192,86,74,0.25); color:#f3d3ce;}
+
+  .feedback-row{min-height:34px; margin-top:16px; font-weight:700; font-size:14.5px;}
+  .feedback-row.correct{color:#8fd6ca;}
+  .feedback-row.wrong{color:#eaa79e;}
+
+  /* stamp */
+  .stamp{
+    position:relative; width:110px; height:110px; margin:0 auto 12px;
+    border:4px solid var(--teal); border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    color:var(--teal); font-weight:900; font-size:15px;
+    transform:rotate(-11deg) scale(0);
+    animation:stampIn .4s cubic-bezier(.3,1.6,.5,1) forwards;
+  }
+  .stamp::before,.stamp::after{
+    content:""; position:absolute; inset:8px; border:1px dashed var(--teal); border-radius:50%;
+  }
+  @keyframes stampIn{
+    0%{transform:rotate(-25deg) scale(2.2); opacity:0;}
+    60%{transform:rotate(-9deg) scale(0.92); opacity:1;}
+    100%{transform:rotate(-11deg) scale(1); opacity:1;}
+  }
+
+  /* result */
+  .result-top{text-align:center; padding:10px 0 8px;}
+  .score-badge{
+    width:150px; height:150px; border-radius:50%; margin:0 auto 18px;
+    background:radial-gradient(circle at 35% 30%, #2a4570, var(--ink-2));
+    border:3px solid var(--gold);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    box-shadow:0 0 0 6px rgba(201,162,75,0.08);
+  }
+  .score-badge .num{font-size:34px; font-weight:900; color:var(--gold); font-variant-numeric:tabular-nums;}
+  .score-badge .den{font-size:13px; color:rgba(244,236,216,0.6);}
+  .grade-msg{font-size:18px; font-weight:700; margin:6px 0 4px;}
+  .grade-sub{color:rgba(244,236,216,0.6); font-size:14px; margin:0 0 20px;}
+
+  .review-list{display:flex; flex-direction:column; gap:8px; margin-top:6px;}
+  .review-item{
+    display:flex; align-items:center; gap:12px;
+    border:1px solid var(--line); border-radius:10px; padding:10px 14px;
+    background:rgba(244,236,216,0.02);
+  }
+  .review-item .rf{flex-shrink:0;}
+  .rf-img{width:38px; height:26px; object-fit:cover; border-radius:3px; border:1px solid rgba(244,236,216,0.15);}
+  .review-item .rt{flex:1; font-size:13.5px;}
+  .review-item .rt b{display:block; font-size:14px;}
+  .tag{
+    font-size:11px; font-weight:700; padding:3px 9px; border-radius:999px;
+  }
+  .tag.ok{background:rgba(58,128,121,0.2); color:#8fd6ca;}
+  .tag.no{background:rgba(192,86,74,0.2); color:#eaa79e;}
+
+  footer.note{
+    text-align:center; color:rgba(244,236,216,0.35); font-size:12px; margin-top:26px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="passport-header">
+    <button class="home-btn hidden" id="home-btn" onclick="goTo('intro')">⟵ صفحه اصلی</button>
+    <p class="eyebrow">بازی آموزشی جغرافیا</p>
+    <h1>گذرنامه جغرافیا</h1>
+    <p class="sub">پرچم‌ها و پایتخت‌های تمام کشورهای دنیا را یاد بگیر، بعد در آزمون نمره‌ات را بگیر.</p>
+    <div class="serial" id="serial"></div>
+  </div>
+
+  <!-- INTRO -->
+  <div class="screen active" id="screen-intro">
+    <div class="panel">
+      <div class="intro-grid">
+        <div class="intro-stat"><b id="stat-count">۱۹۷</b><span>کشور</span></div>
+        <div class="intro-stat"><b>۱۰</b><span>کارت در هر دور آموزش</span></div>
+        <div class="intro-stat"><b>+</b><span>آزمون قابل‌تنظیم</span></div>
+      </div>
+      <p style="color:rgba(244,236,216,0.7); font-size:14.5px; line-height:2;">
+        اول با «مشاهده کشورها» فهرست کامل را ورق می‌زنی، بعد در «آموزش با فلش‌کارت» هر بار ۱۰ کشور تصادفی همراه با چند فکت جالب یاد می‌گیری،
+        و در آخر در «آزمون» نمره‌ات را می‌گیری.
+      </p>
+      <div class="btn-row">
+        <button class="btn" onclick="startStudy()">آموزش با فلش‌کارت</button>
+        <button class="btn ghost" onclick="goTo('learn')">مشاهده کشورها</button>
+        <button class="btn ghost" onclick="goTo('quizConfig')">رفتن به آزمون</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEARN -->
+  <div class="screen" id="screen-learn">
+    <div class="panel">
+      <div class="section-title">
+        <h2>مشاهده کشورها</h2>
+        <span class="counter-pill" id="seen-counter">دیده‌شده: ۰ از ۱۹۷</span>
+      </div>
+      <div class="learn-controls">
+        <input class="search-box" id="search-box" type="text" placeholder="جستجوی نام کشور یا پایتخت...">
+      </div>
+      <div class="chip-row" id="continent-chips" style="margin-bottom:16px;"></div>
+      <div class="card-grid" id="card-grid"></div>
+      <div class="btn-row">
+        <button class="btn" onclick="startStudy()">آموزش با فلش‌کارت</button>
+        <button class="btn ghost" onclick="goTo('quizConfig')">رفتن به آزمون</button>
+        <button class="btn ghost" onclick="goTo('intro')">بازگشت</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STUDY (flashcards) -->
+  <div class="screen" id="screen-study">
+    <div class="panel">
+      <div class="section-title">
+        <h2>آموزش با فلش‌کارت</h2>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span class="counter-pill" id="study-counter">کارت ۱ از ۱۰</span>
+          <button class="quiz-exit-btn" onclick="goTo('intro')">خروج</button>
+        </div>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="study-progress-fill" style="width:0%"></div></div>
+
+      <div id="study-active">
+        <div class="study-flip-card" id="study-card">
+          <div class="study-flip-inner" id="study-card-inner">
+            <div class="study-face study-front">
+              <img class="study-flag" id="study-flag" src="" alt="">
+              <div class="study-name" id="study-name"></div>
+              <div class="study-hint">برای دیدن پایتخت و فکت‌ها لمس کن</div>
+            </div>
+            <div class="study-face study-back">
+              <div class="cap-label">پایتخت</div>
+              <div class="study-capital" id="study-capital"></div>
+              <div class="study-map-label">موقعیت تقریبی روی نقشه</div>
+              <div class="study-map-frame" id="study-map-frame">
+                <img class="study-map-img" id="study-map-img" src="" alt="نقشه جهان" loading="lazy">
+                <div class="map-pin"></div>
+              </div>
+              <div class="study-loc-label">کجاست؟</div>
+              <p class="study-loc-text" id="study-location"></p>
+              <ul class="fact-list" id="study-facts"></ul>
+            </div>
+          </div>
+        </div>
+        <div class="btn-row" style="justify-content:center;">
+          <button class="btn ghost" id="study-prev" onclick="prevStudy()">قبلی</button>
+          <button class="btn" id="study-next" onclick="nextStudy()">بعدی</button>
+        </div>
+      </div>
+
+      <div id="study-complete" style="display:none; text-align:center; padding:20px 0;">
+        <p style="font-size:20px; font-weight:800; margin:0 0 8px;">۱۰ کشور را مرور کردی 🎉</p>
+        <p style="color:rgba(244,236,216,0.6); font-size:14px; margin:0 0 20px;">می‌توانی یک دور تازه با کشورهای دیگر شروع کنی یا برو سراغ آزمون.</p>
+        <div class="btn-row" style="justify-content:center;">
+          <button class="btn" onclick="startStudy()">دور تازه</button>
+          <button class="btn ghost" onclick="goTo('quizConfig')">رفتن به آزمون</button>
+          <button class="btn ghost" onclick="goTo('intro')">صفحه اصلی</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ CONFIG -->
+  <div class="screen" id="screen-quizConfig">
+    <div class="panel">
+      <div class="section-title"><h2>تنظیم آزمون</h2></div>
+      <p style="color:rgba(244,236,216,0.6); font-size:14px; margin-top:-6px;">کدام آزمون را می‌خواهی؟</p>
+      <div class="type-row" id="type-row"></div>
+      <p style="color:rgba(244,236,216,0.6); font-size:14px; margin:0;">درجه سختی را انتخاب کن</p>
+      <div class="type-row" id="difficulty-row"></div>
+      <div class="btn-row">
+        <button class="btn" onclick="startQuiz()">شروع آزمون</button>
+        <button class="btn ghost" onclick="goTo('intro')">بازگشت</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="screen" id="screen-quiz">
+    <div class="panel">
+      <div class="section-title">
+        <h2 id="quiz-heading">آزمون</h2>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span class="counter-pill" id="quiz-counter">سؤال ۱ از ۱۰</span>
+          <button class="quiz-exit-btn" onclick="exitQuiz()">خروج از آزمون</button>
+        </div>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+      <div class="quiz-card">
+        <div id="quiz-flag"></div>
+        <p class="quiz-q" id="quiz-question"></p>
+        <div class="options" id="quiz-options"></div>
+        <div class="feedback-row" id="feedback"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="screen" id="screen-result">
+    <div class="panel">
+      <div class="section-title">
+        <h2 id="result-format-label">نتیجه آزمون</h2>
+        <button class="quiz-exit-btn positive" id="retry-btn" onclick="retryQuiz()">🔁 تلاش مجدد</button>
+      </div>
+      <div class="result-top">
+        <div id="stamp-holder"></div>
+        <div class="score-badge">
+          <span class="num" id="final-score">۰</span>
+          <span class="den" id="final-den">از ۱۰</span>
+        </div>
+        <p class="grade-msg" id="grade-msg"></p>
+        <p class="grade-sub" id="grade-sub"></p>
+      </div>
+      <div class="section-title"><h2>مرور سؤالات</h2></div>
+      <div class="review-list" id="review-list"></div>
+      <div class="btn-row" style="justify-content:center;">
+        <button class="btn" onclick="goTo('quizConfig')">آزمون دوباره</button>
+        <button class="btn ghost" onclick="goTo('learn')">مرور یادگیری</button>
+        <button class="btn ghost" onclick="goTo('intro')">بازگشت به صفحه اصلی</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="note">۱۹۷ کشور جهان، تصادفی هر بار مرتب می‌شوند — نمره‌ات را بهتر کن ✦</footer>
+</div>
+
+<script>
+// ---------- PWA setup: build a manifest + icons on the fly, try to register a service worker ----------
+(function setupPWA(){
+  const ICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+    <rect width="200" height="200" rx="36" fill="#152238"/>
+    <rect x="13" y="13" width="174" height="174" rx="24" fill="none" stroke="#c9a24b" stroke-width="3" stroke-dasharray="5 6"/>
+    <circle cx="100" cy="88" r="46" fill="none" stroke="#c9a24b" stroke-width="6"/>
+    <path d="M55 88 h90 M100 43 v90 M70 58 Q100 88 70 118 M130 58 Q100 88 130 118" stroke="#c9a24b" stroke-width="3" fill="none"/>
+    <text x="100" y="162" font-family="Arial, sans-serif" font-size="22" font-weight="800" fill="#f4ecd8" text-anchor="middle">GEO</text>
+  </svg>`;
+
+  function svgToPng(svgStr, size){
+    return new Promise((resolve) => {
+      try{
+        const img = new Image();
+        const blob = new Blob([svgStr], {type:'image/svg+xml'});
+        const url = URL.createObjectURL(blob);
+        img.onload = function(){
+          const canvas = document.createElement('canvas');
+          canvas.width = size; canvas.height = size;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, size, size);
+          URL.revokeObjectURL(url);
+          try{ resolve(canvas.toDataURL('image/png')); } catch(e){ resolve(null); }
+        };
+        img.onerror = function(){ resolve(null); };
+        img.src = url;
+      } catch(e){ resolve(null); }
+    });
+  }
+
+  Promise.all([svgToPng(ICON_SVG,192), svgToPng(ICON_SVG,512)]).then(([icon192, icon512]) => {
+    const icons = [];
+    if(icon192) icons.push({src:icon192, sizes:'192x192', type:'image/png', purpose:'any maskable'});
+    if(icon512) icons.push({src:icon512, sizes:'512x512', type:'image/png', purpose:'any maskable'});
+    if(icons.length === 0){
+      icons.push({src:'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(ICON_SVG))), sizes:'any', type:'image/svg+xml'});
+    }
+    const manifest = {
+      name: "گذرنامه جغرافیا",
+      short_name: "گذرنامه",
+      description: "بازی آموزشی پرچم‌ها و پایتخت‌های جهان",
+      start_url: ".",
+      scope: ".",
+      display: "standalone",
+      orientation: "portrait",
+      background_color: "#152238",
+      theme_color: "#152238",
+      dir: "rtl",
+      lang: "fa",
+      icons: icons
+    };
+    const manifestBlob = new Blob([JSON.stringify(manifest)], {type:'application/manifest+json'});
+    const manifestUrl = URL.createObjectURL(manifestBlob);
+    const link = document.getElementById('pwa-manifest');
+    if(link) link.setAttribute('href', manifestUrl);
+    const appleIcon = document.getElementById('pwa-apple-icon');
+    if(appleIcon && icon192) appleIcon.setAttribute('href', icon192);
+  });
+
+  // best-effort service worker (enables the install prompt / offline shell on real https hosting)
+  if('serviceWorker' in navigator){
+    try{
+      const swSrc = "self.addEventListener('install',e=>self.skipWaiting());" +
+                    "self.addEventListener('activate',e=>self.clients.claim());" +
+                    "self.addEventListener('fetch',e=>{});";
+      const swBlob = new Blob([swSrc], {type:'text/javascript'});
+      const swUrl = URL.createObjectURL(swBlob);
+      navigator.serviceWorker.register(swUrl).catch(()=>{});
+    } catch(e){}
+  }
+})();
+
+/* continent keys: africa, asia, europe, namerica, samerica, oceania */
+const COUNTRIES = [
+// Africa
+{code:"dz",name:"الجزایر",capital:"الجزیره",cont:"africa"},
+{code:"ao",name:"آنگولا",capital:"لواندا",cont:"africa"},
+{code:"bj",name:"بنین",capital:"پورتو نوو",cont:"africa"},
+{code:"bw",name:"بوتسوانا",capital:"خابورونه",cont:"africa"},
+{code:"bf",name:"بورکینافاسو",capital:"اوآگادوگو",cont:"africa"},
+{code:"bi",name:"بوروندی",capital:"گیتگا",cont:"africa"},
+{code:"cv",name:"کیپ‌ورد",capital:"پرایا",cont:"africa"},
+{code:"cm",name:"کامرون",capital:"یائونده",cont:"africa"},
+{code:"cf",name:"آفریقای مرکزی",capital:"بانگی",cont:"africa"},
+{code:"td",name:"چاد",capital:"انجامنا",cont:"africa"},
+{code:"km",name:"کومور",capital:"مورونی",cont:"africa"},
+{code:"cg",name:"کنگو",capital:"برازاویل",cont:"africa"},
+{code:"cd",name:"کنگوی دموکراتیک",capital:"کینشاسا",cont:"africa"},
+{code:"dj",name:"جیبوتی",capital:"جیبوتی",cont:"africa"},
+{code:"eg",name:"مصر",capital:"قاهره",cont:"africa"},
+{code:"gq",name:"گینه استوایی",capital:"مالابو",cont:"africa"},
+{code:"er",name:"اریتره",capital:"اسمره",cont:"africa"},
+{code:"sz",name:"اسواتینی",capital:"مبابانه",cont:"africa"},
+{code:"et",name:"اتیوپی",capital:"آدیس‌آبابا",cont:"africa"},
+{code:"ga",name:"گابن",capital:"لیبرویل",cont:"africa"},
+{code:"gm",name:"گامبیا",capital:"بانجول",cont:"africa"},
+{code:"gh",name:"غنا",capital:"آکرا",cont:"africa"},
+{code:"gn",name:"گینه",capital:"کوناکری",cont:"africa"},
+{code:"gw",name:"گینه‌بیسائو",capital:"بیسائو",cont:"africa"},
+{code:"ci",name:"ساحل عاج",capital:"یاموسوکرو",cont:"africa"},
+{code:"ke",name:"کنیا",capital:"نایروبی",cont:"africa"},
+{code:"ls",name:"لسوتو",capital:"ماسرو",cont:"africa"},
+{code:"lr",name:"لیبریا",capital:"مونروویا",cont:"africa"},
+{code:"ly",name:"لیبی",capital:"طرابلس",cont:"africa"},
+{code:"mg",name:"ماداگاسکار",capital:"آنتاناناریوو",cont:"africa"},
+{code:"mw",name:"مالاوی",capital:"لیلونگوه",cont:"africa"},
+{code:"ml",name:"مالی",capital:"باماکو",cont:"africa"},
+{code:"mr",name:"موریتانی",capital:"نواکشوت",cont:"africa"},
+{code:"mu",name:"موریس",capital:"پورت‌لوئی",cont:"africa"},
+{code:"ma",name:"مراکش",capital:"رباط",cont:"africa"},
+{code:"mz",name:"موزامبیک",capital:"ماپوتو",cont:"africa"},
+{code:"na",name:"نامیبیا",capital:"ویندهوک",cont:"africa"},
+{code:"ne",name:"نیجر",capital:"نیامی",cont:"africa"},
+{code:"ng",name:"نیجریه",capital:"ابوجا",cont:"africa"},
+{code:"rw",name:"رواندا",capital:"کیگالی",cont:"africa"},
+{code:"st",name:"سائوتومه و پرینسیپ",capital:"سائوتومه",cont:"africa"},
+{code:"sn",name:"سنگال",capital:"داکار",cont:"africa"},
+{code:"sc",name:"سیشل",capital:"ویکتوریا",cont:"africa"},
+{code:"sl",name:"سیرالئون",capital:"فریتاون",cont:"africa"},
+{code:"so",name:"سومالی",capital:"مقدیشو",cont:"africa"},
+{code:"za",name:"آفریقای جنوبی",capital:"پرتوریا",cont:"africa"},
+{code:"ss",name:"سودان جنوبی",capital:"جوبا",cont:"africa"},
+{code:"sd",name:"سودان",capital:"خارطوم",cont:"africa"},
+{code:"tz",name:"تانزانیا",capital:"دودوما",cont:"africa"},
+{code:"tg",name:"توگو",capital:"لومه",cont:"africa"},
+{code:"tn",name:"تونس",capital:"تونس",cont:"africa"},
+{code:"ug",name:"اوگاندا",capital:"کامپالا",cont:"africa"},
+{code:"zm",name:"زامبیا",capital:"لوزاکا",cont:"africa"},
+{code:"zw",name:"زیمبابوه",capital:"هراره",cont:"africa"},
+// Asia
+{code:"af",name:"افغانستان",capital:"کابل",cont:"asia"},
+{code:"am",name:"ارمنستان",capital:"ایروان",cont:"asia"},
+{code:"az",name:"آذربایجان",capital:"باکو",cont:"asia"},
+{code:"bh",name:"بحرین",capital:"منامه",cont:"asia"},
+{code:"bd",name:"بنگلادش",capital:"داکا",cont:"asia"},
+{code:"bt",name:"بوتان",capital:"تیمپو",cont:"asia"},
+{code:"bn",name:"برونئی",capital:"بندر سری بگاوان",cont:"asia"},
+{code:"kh",name:"کامبوج",capital:"پنوم‌پن",cont:"asia"},
+{code:"cn",name:"چین",capital:"پکن",cont:"asia"},
+{code:"cy",name:"قبرس",capital:"نیکوزیا",cont:"asia"},
+{code:"ge",name:"گرجستان",capital:"تفلیس",cont:"asia"},
+{code:"in",name:"هند",capital:"دهلی‌نو",cont:"asia"},
+{code:"id",name:"اندونزی",capital:"جاکارتا",cont:"asia"},
+{code:"ir",name:"ایران",capital:"تهران",cont:"asia"},
+{code:"iq",name:"عراق",capital:"بغداد",cont:"asia"},
+{code:"il",name:"اسرائیل",capital:"اورشلیم",cont:"asia"},
+{code:"jp",name:"ژاپن",capital:"توکیو",cont:"asia"},
+{code:"jo",name:"اردن",capital:"عمان",cont:"asia"},
+{code:"kz",name:"قزاقستان",capital:"آستانه",cont:"asia"},
+{code:"kw",name:"کویت",capital:"کویت",cont:"asia"},
+{code:"kg",name:"قرقیزستان",capital:"بیشکک",cont:"asia"},
+{code:"la",name:"لائوس",capital:"وینتیان",cont:"asia"},
+{code:"lb",name:"لبنان",capital:"بیروت",cont:"asia"},
+{code:"my",name:"مالزی",capital:"کوالالامپور",cont:"asia"},
+{code:"mv",name:"مالدیو",capital:"ماله",cont:"asia"},
+{code:"mn",name:"مغولستان",capital:"اولان‌باتور",cont:"asia"},
+{code:"mm",name:"میانمار",capital:"ناپیداو",cont:"asia"},
+{code:"np",name:"نپال",capital:"کاتماندو",cont:"asia"},
+{code:"kp",name:"کره شمالی",capital:"پیونگ‌یانگ",cont:"asia"},
+{code:"om",name:"عمان",capital:"مسقط",cont:"asia"},
+{code:"pk",name:"پاکستان",capital:"اسلام‌آباد",cont:"asia"},
+{code:"ps",name:"فلسطین",capital:"رام‌الله",cont:"asia"},
+{code:"ph",name:"فیلیپین",capital:"مانیل",cont:"asia"},
+{code:"qa",name:"قطر",capital:"دوحه",cont:"asia"},
+{code:"sa",name:"عربستان سعودی",capital:"ریاض",cont:"asia"},
+{code:"sg",name:"سنگاپور",capital:"سنگاپور",cont:"asia"},
+{code:"kr",name:"کره جنوبی",capital:"سئول",cont:"asia"},
+{code:"lk",name:"سریلانکا",capital:"کلمبو",cont:"asia"},
+{code:"sy",name:"سوریه",capital:"دمشق",cont:"asia"},
+{code:"tw",name:"تایوان",capital:"تایپه",cont:"asia"},
+{code:"tj",name:"تاجیکستان",capital:"دوشنبه",cont:"asia"},
+{code:"th",name:"تایلند",capital:"بانکوک",cont:"asia"},
+{code:"tl",name:"تیمور شرقی",capital:"دیلی",cont:"asia"},
+{code:"tr",name:"ترکیه",capital:"آنکارا",cont:"asia"},
+{code:"tm",name:"ترکمنستان",capital:"عشق‌آباد",cont:"asia"},
+{code:"ae",name:"امارات متحده عربی",capital:"ابوظبی",cont:"asia"},
+{code:"uz",name:"ازبکستان",capital:"تاشکند",cont:"asia"},
+{code:"vn",name:"ویتنام",capital:"هانوی",cont:"asia"},
+{code:"ye",name:"یمن",capital:"صنعا",cont:"asia"},
+// Europe
+{code:"al",name:"آلبانی",capital:"تیرانا",cont:"europe"},
+{code:"ad",name:"آندورا",capital:"آندورا لا وا",cont:"europe"},
+{code:"at",name:"اتریش",capital:"وین",cont:"europe"},
+{code:"by",name:"بلاروس",capital:"مینسک",cont:"europe"},
+{code:"be",name:"بلژیک",capital:"بروکسل",cont:"europe"},
+{code:"ba",name:"بوسنی و هرزگوین",capital:"سارایوو",cont:"europe"},
+{code:"bg",name:"بلغارستان",capital:"صوفیه",cont:"europe"},
+{code:"hr",name:"کرواسی",capital:"زاگرب",cont:"europe"},
+{code:"cz",name:"جمهوری چک",capital:"پراگ",cont:"europe"},
+{code:"dk",name:"دانمارک",capital:"کپنهاگ",cont:"europe"},
+{code:"ee",name:"استونی",capital:"تالین",cont:"europe"},
+{code:"fi",name:"فنلاند",capital:"هلسینکی",cont:"europe"},
+{code:"fr",name:"فرانسه",capital:"پاریس",cont:"europe"},
+{code:"de",name:"آلمان",capital:"برلین",cont:"europe"},
+{code:"gr",name:"یونان",capital:"آتن",cont:"europe"},
+{code:"hu",name:"مجارستان",capital:"بوداپست",cont:"europe"},
+{code:"is",name:"ایسلند",capital:"ریکیاویک",cont:"europe"},
+{code:"ie",name:"ایرلند",capital:"دوبلین",cont:"europe"},
+{code:"it",name:"ایتالیا",capital:"رم",cont:"europe"},
+{code:"xk",name:"کوزوو",capital:"پریشتینا",cont:"europe"},
+{code:"lv",name:"لتونی",capital:"ریگا",cont:"europe"},
+{code:"li",name:"لیختن‌اشتاین",capital:"وادوز",cont:"europe"},
+{code:"lt",name:"لیتوانی",capital:"ویلنیوس",cont:"europe"},
+{code:"lu",name:"لوکزامبورگ",capital:"لوکزامبورگ",cont:"europe"},
+{code:"mt",name:"مالت",capital:"والتا",cont:"europe"},
+{code:"md",name:"مولداوی",capital:"کیشیناو",cont:"europe"},
+{code:"mc",name:"موناکو",capital:"موناکو",cont:"europe"},
+{code:"me",name:"مونته‌نگرو",capital:"پودگوریتسا",cont:"europe"},
+{code:"nl",name:"هلند",capital:"آمستردام",cont:"europe"},
+{code:"mk",name:"مقدونیه شمالی",capital:"اسکوپیه",cont:"europe"},
+{code:"no",name:"نروژ",capital:"اسلو",cont:"europe"},
+{code:"pl",name:"لهستان",capital:"ورشو",cont:"europe"},
+{code:"pt",name:"پرتغال",capital:"لیسبون",cont:"europe"},
+{code:"ro",name:"رومانی",capital:"بخارست",cont:"europe"},
+{code:"ru",name:"روسیه",capital:"مسکو",cont:"europe"},
+{code:"sm",name:"سان‌مارینو",capital:"سان‌مارینو",cont:"europe"},
+{code:"rs",name:"صربستان",capital:"بلگراد",cont:"europe"},
+{code:"sk",name:"اسلواکی",capital:"براتیسلاوا",cont:"europe"},
+{code:"si",name:"اسلوونی",capital:"لیوبلیانا",cont:"europe"},
+{code:"es",name:"اسپانیا",capital:"مادرید",cont:"europe"},
+{code:"se",name:"سوئد",capital:"استکهلم",cont:"europe"},
+{code:"ch",name:"سوئیس",capital:"برن",cont:"europe"},
+{code:"ua",name:"اوکراین",capital:"کی‌یف",cont:"europe"},
+{code:"gb",name:"بریتانیا",capital:"لندن",cont:"europe"},
+{code:"va",name:"واتیکان",capital:"واتیکان",cont:"europe"},
+// North America
+{code:"ag",name:"آنتیگوا و باربودا",capital:"سنت جانز",cont:"namerica"},
+{code:"bs",name:"باهاما",capital:"ناسائو",cont:"namerica"},
+{code:"bb",name:"باربادوس",capital:"بریج‌تاون",cont:"namerica"},
+{code:"bz",name:"بلیز",capital:"بلموپان",cont:"namerica"},
+{code:"ca",name:"کانادا",capital:"اتاوا",cont:"namerica"},
+{code:"cr",name:"کاستاریکا",capital:"سان‌خوزه",cont:"namerica"},
+{code:"cu",name:"کوبا",capital:"هاوانا",cont:"namerica"},
+{code:"dm",name:"دومینیکا",capital:"روزو",cont:"namerica"},
+{code:"do",name:"جمهوری دومینیکن",capital:"سانتو دومینگو",cont:"namerica"},
+{code:"sv",name:"السالوادور",capital:"سان‌سالوادور",cont:"namerica"},
+{code:"gd",name:"گرنادا",capital:"سنت جورجز",cont:"namerica"},
+{code:"gt",name:"گواتمالا",capital:"گواتمالاسیتی",cont:"namerica"},
+{code:"ht",name:"هائیتی",capital:"پورت‌اوپرنس",cont:"namerica"},
+{code:"hn",name:"هندوراس",capital:"تگوسیگالپا",cont:"namerica"},
+{code:"jm",name:"جامائیکا",capital:"کینگستون",cont:"namerica"},
+{code:"mx",name:"مکزیک",capital:"مکزیکوسیتی",cont:"namerica"},
+{code:"ni",name:"نیکاراگوئه",capital:"ماناگوا",cont:"namerica"},
+{code:"pa",name:"پاناما",capital:"پاناماسیتی",cont:"namerica"},
+{code:"kn",name:"سنت کیتس و نویس",capital:"باستر",cont:"namerica"},
+{code:"lc",name:"سنت لوسیا",capital:"کاستریز",cont:"namerica"},
+{code:"vc",name:"سنت وینسنت و گرنادین‌ها",capital:"کینگزتاون",cont:"namerica"},
+{code:"tt",name:"ترینیداد و توباگو",capital:"پورت‌آف‌اسپین",cont:"namerica"},
+{code:"us",name:"ایالات متحده آمریکا",capital:"واشنگتن",cont:"namerica"},
+// South America
+{code:"ar",name:"آرژانتین",capital:"بوینوس‌آیرس",cont:"samerica"},
+{code:"bo",name:"بولیوی",capital:"سوکره",cont:"samerica"},
+{code:"br",name:"برزیل",capital:"برازیلیا",cont:"samerica"},
+{code:"cl",name:"شیلی",capital:"سانتیاگو",cont:"samerica"},
+{code:"co",name:"کلمبیا",capital:"بوگوتا",cont:"samerica"},
+{code:"ec",name:"اکوادور",capital:"کیتو",cont:"samerica"},
+{code:"gy",name:"گویان",capital:"جورج‌تاون",cont:"samerica"},
+{code:"py",name:"پاراگوئه",capital:"آسونسیون",cont:"samerica"},
+{code:"pe",name:"پرو",capital:"لیما",cont:"samerica"},
+{code:"sr",name:"سورینام",capital:"پاراماریبو",cont:"samerica"},
+{code:"uy",name:"اروگوئه",capital:"مونته‌ویدئو",cont:"samerica"},
+{code:"ve",name:"ونزوئلا",capital:"کاراکاس",cont:"samerica"},
+// Oceania
+{code:"au",name:"استرالیا",capital:"کانبرا",cont:"oceania"},
+{code:"fj",name:"فیجی",capital:"سووا",cont:"oceania"},
+{code:"ki",name:"کیریباتی",capital:"تاراوا",cont:"oceania"},
+{code:"mh",name:"جزایر مارشال",capital:"ماجورو",cont:"oceania"},
+{code:"fm",name:"میکرونزی",capital:"پالیکیر",cont:"oceania"},
+{code:"nr",name:"نائورو",capital:"یارن",cont:"oceania"},
+{code:"nz",name:"نیوزیلند",capital:"ولینگتون",cont:"oceania"},
+{code:"pw",name:"پالائو",capital:"نگرولمود",cont:"oceania"},
+{code:"pg",name:"پاپوآگینه‌نو",capital:"پورت‌مورزبی",cont:"oceania"},
+{code:"ws",name:"ساموآ",capital:"آپیا",cont:"oceania"},
+{code:"sb",name:"جزایر سلیمان",capital:"هونیارا",cont:"oceania"},
+{code:"to",name:"تونگا",capital:"نوکوعالوفا",cont:"oceania"},
+{code:"tv",name:"تووالو",capital:"فونافوتی",cont:"oceania"},
+{code:"vu",name:"وانواتو",capital:"پورت‌ویلا",cont:"oceania"},
+];
+
+const CONTINENTS = [
+  {key:"all", label:"همه"},
+  {key:"africa", label:"آفریقا"},
+  {key:"asia", label:"آسیا"},
+  {key:"europe", label:"اروپا"},
+  {key:"namerica", label:"آمریکای شمالی"},
+  {key:"samerica", label:"آمریکای جنوبی"},
+  {key:"oceania", label:"اقیانوسیه"},
+];
+
+const FACTS = {
+  // Africa
+  dz:["بزرگ‌ترین کشور آفریقا از نظر مساحت است."],
+  ao:["پس از جنگ داخلی طولانی، اکنون تولیدکننده مهم نفت است."],
+  bj:["زادگاه تاریخی آیین وودو است."],
+  bw:["دلتای اوکاوانگو، یکی از بزرگ‌ترین واحه‌های داخلی جهان، در آن است."],
+  bf:["نامش به معنای «سرزمین مردمان درستکار» است."],
+  bi:["دریاچه تانگانیکا، یکی از عمیق‌ترین دریاچه‌های جهان، را دارد."],
+  cv:["مجمع‌الجزایری آتشفشانی در اقیانوس اطلس است."],
+  cm:["به دلیل تنوع اقلیمی، «آفریقای کوچک» لقب دارد."],
+  cf:["جنگل‌های بارانی متراکم بخش زیادی از آن را پوشانده است."],
+  td:["دریاچه چاد زمانی یکی از بزرگ‌ترین دریاچه‌های آفریقا بود."],
+  km:["مجمع‌الجزایری آتشفشانی نزدیک ماداگاسکار است."],
+  cg:["جنگل حوضه کنگو، دومین جنگل بارانی بزرگ جهان، در آن است."],
+  cd:["رودخانه کنگو دومین رود پرآب جهان است."],
+  dj:["دریاچه آسال یکی از شورترین آب‌های جهان است."],
+  eg:["اهرام جیزه یکی از عجایب هفت‌گانه باستان است.","رود نیل، طولانی‌ترین رود جهان، از آن می‌گذرد."],
+  gq:["تنها کشور رسمی اسپانیایی‌زبان آفریقاست."],
+  er:["اسمره، پایتخت آن، معماری مدرنیستی ایتالیایی دارد."],
+  sz:["یکی از آخرین پادشاهی‌های مطلقه جهان است."],
+  et:["تنها کشور آفریقایی است که هرگز مستعمره نشد.","زادگاه احتمالی قهوه در جهان است."],
+  ga:["بیش از ۸۰٪ خاک آن را جنگل پوشانده است."],
+  gm:["کوچک‌ترین کشور سرزمین اصلی آفریقاست."],
+  gh:["اولین کشور آفریقایی جنوب صحرا بود که استقلال گرفت."],
+  gn:["منابع بوکسیت (سنگ آلومینیوم) فراوانی دارد."],
+  gw:["مجمع‌الجزایر بیجاگوش آن پناهگاه زیستی مهمی است."],
+  ci:["بزرگ‌ترین تولیدکننده کاکائو در جهان است."],
+  ke:["دشت ماسای مارا میزبان مهاجرت بزرگ حیات‌وحش است."],
+  ls:["تنها کشور جهان است که کاملاً درون کشور دیگری محصور شده."],
+  lr:["توسط بردگان آزادشده آمریکایی در قرن نوزدهم بنیان‌گذاری شد."],
+  ly:["بیشتر خاک آن را کویر صحرا پوشانده است."],
+  mg:["بیش از ۹۰٪ گونه‌های جانوری آن جای دیگری یافت نمی‌شوند."],
+  mw:["دریاچه مالاوی سومین دریاچه بزرگ آفریقاست."],
+  ml:["شهر تاریخی تیمبوکتو مرکز علمی سده‌های میانه بود."],
+  mr:["بیشتر خاک آن بخشی از صحرای بزرگ آفریقاست."],
+  mu:["زیستگاه اصلی پرنده منقرض‌شده دودو بود."],
+  ma:["شهر مراکش با بازارهای رنگارنگ آن معروف است."],
+  mz:["خط ساحلی طولانی آن در اقیانوس هند قرار دارد."],
+  na:["کویر نامیب یکی از قدیمی‌ترین کویرهای جهان است."],
+  ne:["بیشتر خاک آن را صحرای بزرگ آفریقا پوشانده است."],
+  ng:["پرجمعیت‌ترین کشور آفریقاست."],
+  rw:["به دلیل تپه‌های سرسبزش، «سرزمین هزار تپه» نام دارد."],
+  st:["یکی از کوچک‌ترین کشورهای آفریقایی، در خلیج گینه است."],
+  sn:["نیم‌جزیره کیپ‌ورد، غربی‌ترین نقطه آفریقا، در آن است."],
+  sc:["مجمع‌الجزایری در اقیانوس هند با سواحل کم‌جمعیت است."],
+  sl:["فریتاون، پایتخت آن، یکی از بهترین بنادر طبیعی جهان را دارد."],
+  so:["طولانی‌ترین خط ساحلی سرزمین اصلی آفریقاست."],
+  za:["میزبان سه پایتخت (اداری، قضایی، قانون‌گذاری) است."],
+  ss:["جوان‌ترین کشور مستقل جهان است (۲۰۱۱)."],
+  sd:["بیشترین تعداد اهرام باستانی جهان را دارد؛ بیشتر از مصر."],
+  tz:["قله کیلیمانجارو، بلندترین کوه آفریقا، در آن است."],
+  tg:["کشوری باریک و کشیده در غرب آفریقاست."],
+  tn:["شهر باستانی کارتاژ نزدیک پایتخت آن قرار داشت."],
+  ug:["منبع رود نیل نزدیک دریاچه ویکتوریا در آن است."],
+  zm:["آبشار ویکتوریا را با زیمبابوه شریک است."],
+  zw:["آبشار ویکتوریا یکی از عجایب طبیعی هفت‌گانه جهان است."],
+  // Asia
+  af:["کشوری کوهستانی و بدون مرز آبی است."],
+  am:["اولین کشور مسیحی رسمی جهان است."],
+  az:["به دلیل شعله‌های طبیعی گاز، «سرزمین آتش» لقب دارد."],
+  bh:["مجمع‌الجزایری کوچک در خلیج فارس است."],
+  bd:["بزرگ‌ترین دلتای رودخانه‌ای جهان را دارد."],
+  bt:["به‌جای تولید ناخالص داخلی، «شادی ملی ناخالص» را می‌سنجد."],
+  bn:["یکی از ثروتمندترین کشورهای جهان از نظر نفت است."],
+  kh:["خانهٔ معبد باستانی آنکوروات است."],
+  cn:["دیوار بزرگ چین طولانی‌ترین سازه دست‌ساز جهان است."],
+  cy:["زادگاه افسانه‌ای الهه آفرودیت است."],
+  ge:["از قدیمی‌ترین مناطق شراب‌سازی جهان است."],
+  in:["تاج‌محل، یکی از عجایب هفت‌گانه جهان، در آن است."],
+  id:["بیش از ۱۷ هزار جزیره دارد."],
+  ir:["دارای بیش از ۲۴ اثر ثبت‌شده در میراث جهانی یونسکو است.","فرش دستباف ایرانی از مشهورترین صنایع‌دستی جهان است."],
+  iq:["سرزمین بین‌النهرین و گهواره تمدن باستان است."],
+  il:["دریای مرده، پایین‌ترین نقطه خشکی زمین، در این منطقه است."],
+  jp:["کوه فوجی نماد ملی این کشور است.","یکی از بالاترین امیدهای زندگی در جهان را دارد."],
+  jo:["شهر باستانی پترا در این کشور قرار دارد."],
+  kz:["بزرگ‌ترین کشور محصور در خشکی جهان است."],
+  kw:["یکی از بزرگ‌ترین ذخایر نفت جهان را دارد."],
+  kg:["بیش از ۹۰٪ خاک آن کوهستانی است."],
+  la:["زمانی به «سرزمین یک میلیون فیل» معروف بود."],
+  lb:["درخت سدر نماد پرچم این کشور است."],
+  my:["برج‌های دوقلوی پتروناس از بلندترین ساختمان‌های جهان بوده است."],
+  mv:["کم‌ارتفاع‌ترین کشور جهان است."],
+  mn:["کم‌تراکم‌ترین کشور مستقل جهان است."],
+  mm:["هزاران معبد باستانی در شهر باگان دارد."],
+  np:["قلهٔ اورست، بلندترین کوه جهان، در این کشور است."],
+  kp:["یکی از منزوی‌ترین کشورهای جهان از نظر گردشگری است."],
+  om:["یکی از قدیمی‌ترین پایتخت‌های مستقل جهان عرب را دارد."],
+  pk:["خانهٔ کی‌تو، دومین قله بلند جهان، است."],
+  ps:["بیت‌لحم، محل تولد حضرت مسیح، در این منطقه است."],
+  ph:["از بیش از ۷۰۰۰ جزیره تشکیل شده است."],
+  qa:["میزبان جام جهانی فوتبال ۲۰۲۲ بود."],
+  sa:["خانهٔ دو حرم مقدس اسلام، مکه و مدینه، است."],
+  sg:["یکی از کوچک‌ترین و ثروتمندترین کشورهای جهان است."],
+  kr:["پیشگام صنعت الکترونیک و موسیقی کی-پاپ است."],
+  lk:["به «مروارید اقیانوس هند» معروف است."],
+  sy:["دمشق یکی از قدیمی‌ترین شهرهای مسکونی جهان است."],
+  tw:["از تولیدکنندگان اصلی نیمه‌هادی‌های جهان است."],
+  tj:["بیش از نیمی از خاک آن بالای ۳۰۰۰ متر ارتفاع دارد."],
+  th:["هرگز تحت استعمار قدرت اروپایی نبوده است."],
+  tl:["جوان‌ترین کشور آسیا از نظر استقلال است."],
+  tr:["تنها کشوری است که هم‌زمان در آسیا و اروپا قرار دارد."],
+  tm:["«دروازه جهنم»، چاله گازی همیشه‌سوز، در این کشور است."],
+  ae:["برج خلیفه، بلندترین ساختمان جهان، در دبی است."],
+  uz:["یکی از دو کشور «دوبار محصور در خشکی» جهان است."],
+  vn:["غار سون دونگ، بزرگ‌ترین غار طبیعی جهان، در این کشور است."],
+  ye:["جزیره سقطری آن خانه گونه‌های گیاهی منحصربه‌فرد است."],
+  // Europe
+  al:["بیش از ۷۵۰ کیلومتر خط ساحلی در دریای آدریاتیک دارد."],
+  ad:["میان اسپانیا و فرانسه در کوه‌های پیرنه قرار دارد."],
+  at:["زادگاه موتزارت، آهنگساز بزرگ کلاسیک، است."],
+  by:["بخش بزرگی از جنگل باستانی بیالوویژا در آن است."],
+  be:["مقر اصلی اتحادیه اروپا در بروکسل است."],
+  ba:["پل قدیمی موستار از نمادهای معروف آن است."],
+  bg:["رز، گل ملی و صنعت مهم آن است."],
+  hr:["دیوارهای شهر تاریخی دوبروونیک از جاذبه‌های اصلی آن است."],
+  cz:["پراگ به «شهر صد برج» معروف است."],
+  dk:["در نظرسنجی‌ها اغلب جزو شادترین کشورهای جهان است."],
+  ee:["از پیشگامان دولت الکترونیک و دیجیتال جهان است."],
+  fi:["سرزمین هزاران دریاچه و شفق قطبی است."],
+  fr:["پربازدیدترین کشور گردشگری جهان است.","خانهٔ برج ایفل و موزه لوور است."],
+  de:["بخش‌هایی از اتوبان‌های آلمان محدودیت سرعت ندارند."],
+  gr:["زادگاه المپیک باستان و دموکراسی است."],
+  hu:["بوداپست به دلیل چشمه‌های آب‌گرم طبیعی معروف است."],
+  is:["بیشترین تعداد آتشفشان فعال در اروپا را دارد."],
+  ie:["به «جزیره زمرد» به دلیل طبیعت سرسبزش معروف است."],
+  it:["خانهٔ کولوسئوم روم و برج پیزا است."],
+  xk:["یکی از جوان‌ترین کشورهای جهان از نظر استقلال است."],
+  lv:["ریگا، پایتخت آن، مرکز معماری آرت نوو اروپاست."],
+  li:["یکی از کوچک‌ترین کشورهای جهان و بدون فرودگاه است."],
+  lt:["اولین کشوری بود که در دهه ۱۹۹۰ از شوروی جدا شد."],
+  lu:["یکی از بالاترین سرانه درآمد جهان را دارد."],
+  mt:["معابد سنگی آن از قدیمی‌ترین بناهای مستقل جهان‌اند."],
+  md:["بزرگ‌ترین انبار شراب زیرزمینی جهان را دارد."],
+  mc:["دومین کشور کوچک جهان و مقصد مسابقات فرمول یک است."],
+  me:["خلیج کوتور یکی از زیباترین سواحل اروپاست."],
+  nl:["بیش از یک‌چهارم خاک آن پایین‌تر از سطح دریاست."],
+  mk:["دریاچه اوهرید آن میراث طبیعی یونسکو است."],
+  no:["فیوردهای طبیعی از جاذبه‌های اصلی گردشگری آن‌اند."],
+  pl:["نمکزار زیرزمینی ویه‌لیچکا قدمتی هفتصدساله دارد."],
+  pt:["قدیمی‌ترین کشور با مرزهای ثابت در اروپاست."],
+  ro:["قلعه برن، الهام‌بخش افسانه دراکولا، در آن است."],
+  ru:["بزرگ‌ترین کشور جهان از نظر مساحت است.","در یازده منطقه زمانی مختلف قرار دارد."],
+  sm:["یکی از قدیمی‌ترین جمهوری‌های جهان است."],
+  rs:["نیکولا تسلا نزدیک این کشور به دنیا آمد."],
+  sk:["صدها قلعه و غار طبیعی دارد."],
+  si:["غار پوستوینا یکی از بزرگ‌ترین غارهای کارستی اروپاست."],
+  es:["فستیوال لاتوماتینا (جنگ گوجه‌فرنگی) هرساله در آن برگزار می‌شود."],
+  se:["حق دسترسی همگانی به طبیعت در قانون آن ثبت شده."],
+  ch:["ساعت‌سازی و شکلات از صنایع مشهور آن است."],
+  ua:["بزرگ‌ترین کشور اروپا از نظر مساحت (بدون احتساب روسیه) است."],
+  gb:["استون‌هنج، بنای باستانی اسرارآمیز، در این کشور است."],
+  va:["کوچک‌ترین کشور مستقل جهان از نظر مساحت و جمعیت است."],
+  // North America
+  ag:["گفته می‌شود ۳۶۵ ساحل دارد؛ یکی برای هر روز سال."],
+  bs:["از حدود ۷۰۰ جزیره و جزیره کوچک تشکیل شده است."],
+  bb:["زادگاه موسیقی سوکا و خواننده مشهور ریانا است."],
+  bz:["دومین بزرگ‌ترین صخره مرجانی جهان را دارد."],
+  ca:["بیشترین طول خط ساحلی را در میان کشورهای جهان دارد."],
+  cr:["ارتش رسمی ندارد و به طبیعت‌گردی معروف است."],
+  cu:["بزرگ‌ترین جزیره در دریای کارائیب است."],
+  dm:["به «جزیره طبیعت» به دلیل جنگل‌ها و آبشارهایش معروف است."],
+  do:["با هائیتی جزیره هیسپانیولا را شریک است."],
+  sv:["کوچک‌ترین و پرجمعیت‌ترین کشور آمریکای مرکزی است."],
+  gd:["به «جزیره ادویه» به دلیل تولید جوز هندی معروف است."],
+  gt:["خانهٔ تمدن باستانی مایا و اهرام تیکال است."],
+  ht:["اولین جمهوری مستقل سیاه‌پوستان جهان است."],
+  hn:["ویرانه‌های باستانی کوپان از میراث تمدن مایاست."],
+  jm:["زادگاه موسیقی رگی و بوب مارلی است."],
+  mx:["اهرام باستانی چیچن‌ایتزا از عجایب هفت‌گانه جدید جهان است."],
+  ni:["بزرگ‌ترین کشور آمریکای مرکزی است."],
+  pa:["کانال پاناما یکی از مهم‌ترین آبراه‌های تجاری جهان است."],
+  kn:["کوچک‌ترین کشور مستقل قاره آمریکاست."],
+  lc:["قله‌های آتشفشانی دوقلوی پیتون از نمادهای آن است."],
+  vc:["از ۳۲ جزیره و جزیره کوچک تشکیل شده است."],
+  tt:["زادگاه موسیقی کالیپسو و ساز استیل‌درام است."],
+  us:["بزرگ‌ترین اقتصاد جهان را دارد.","پارک ملی یلواستون اولین پارک ملی جهان بود."],
+  // South America
+  ar:["زادگاه رقص تانگو در بوینوس‌آیرس است."],
+  bo:["دریاچه تیتیکاکا، بلندترین دریاچه قابل‌کشتیرانی جهان، را دارد."],
+  br:["بزرگ‌ترین کشور آمریکای جنوبی و خانهٔ جنگل آمازون است."],
+  cl:["باریک‌ترین و کشیده‌ترین کشور جهان است."],
+  co:["تنها کشور آمریکای جنوبی با سواحل در دو اقیانوس اطلس و آرام است."],
+  ec:["جزایر گالاپاگوس، الهام‌بخش نظریه داروین، بخشی از آن است."],
+  gy:["تنها کشور رسمی انگلیسی‌زبان آمریکای جنوبی است."],
+  py:["دو زبان رسمی اسپانیایی و گوارانی دارد."],
+  pe:["ماچوپیچو، شهر باستانی اینکاها، در آن قرار دارد."],
+  sr:["کوچک‌ترین کشور مستقل آمریکای جنوبی است."],
+  uy:["اولین کشور جهان بود که ماری‌جوانا را کاملاً قانونی کرد."],
+  ve:["آبشار آنجل، بلندترین آبشار جهان، در آن قرار دارد."],
+  // Oceania
+  au:["خانهٔ بریر ریف بزرگ، بزرگ‌ترین صخره مرجانی جهان، است."],
+  fj:["از بیش از ۳۰۰ جزیره تشکیل شده است."],
+  ki:["تنها کشور جهان است که در هر چهار نیم‌کره زمین قرار دارد."],
+  mh:["مجمع‌الجزایری کم‌ارتفاع در اقیانوس آرام است."],
+  fm:["از بیش از ۶۰۰ جزیره تشکیل شده است."],
+  nr:["یکی از کوچک‌ترین کشورهای مستقل جهان است."],
+  nz:["زادگاه فیلم‌های ارباب حلقه‌ها با مناظر طبیعی خیره‌کننده است."],
+  pw:["دریاچه عروس‌دریایی آن خانهٔ میلیون‌ها عروس دریایی بی‌نیش است."],
+  pg:["بیش از ۸۰۰ زبان بومی دارد؛ بیشترین در جهان."],
+  ws:["از دو جزیره اصلی و چند جزیره کوچک تشکیل شده است."],
+  sb:["صحنه نبردهای مهم جنگ جهانی دوم در اقیانوس آرام بود."],
+  to:["تنها پادشاهی باقی‌مانده در اقیانوسیه است."],
+  tv:["یکی از کوچک‌ترین کشورهای مستقل جهان است."],
+  vu:["یکی از فعال‌ترین آتشفشان‌های قابل‌دسترس جهان را دارد."],
+};
+
+// approximate [lat, lon] of each country's capital, used to place a pin on the map
+const COORDS = {
+  dz:[36.75,3.06], ao:[-8.84,13.23], bj:[6.50,2.60], bw:[-24.65,25.91], bf:[12.37,-1.53],
+  bi:[-3.43,29.93], cv:[14.93,-23.51], cm:[3.87,11.52], cf:[4.37,18.56], td:[12.13,15.06],
+  km:[-11.70,43.26], cg:[-4.26,15.28], cd:[-4.44,15.27], dj:[11.59,43.15], eg:[30.04,31.24],
+  gq:[3.75,8.78], er:[15.32,38.93], sz:[-26.32,31.13], et:[9.03,38.74], ga:[0.42,9.45],
+  gm:[13.45,-16.58], gh:[5.60,-0.19], gn:[9.51,-13.71], gw:[11.86,-15.60], ci:[6.83,-5.29],
+  ke:[-1.29,36.82], ls:[-29.31,27.48], lr:[6.30,-10.80], ly:[32.89,13.19], mg:[-18.88,47.51],
+  mw:[-13.96,33.79], ml:[12.65,-8.00], mr:[18.09,-15.98], mu:[-20.16,57.50], ma:[34.02,-6.83],
+  mz:[-25.97,32.57], na:[-22.56,17.08], ne:[13.51,2.11], ng:[9.08,7.40], rw:[-1.94,30.06],
+  st:[0.34,6.73], sn:[14.72,-17.47], sc:[-4.62,55.45], sl:[8.48,-13.23], so:[2.04,45.34],
+  za:[-25.75,28.19], ss:[4.85,31.58], sd:[15.50,32.56], tz:[-6.16,35.75], tg:[6.13,1.22],
+  tn:[36.81,10.18], ug:[0.35,32.58], zm:[-15.39,28.32], zw:[-17.83,31.05],
+  af:[34.56,69.21], am:[40.18,44.51], az:[40.41,49.87], bh:[26.23,50.59], bd:[23.81,90.41],
+  bt:[27.47,89.64], bn:[4.94,114.94], kh:[11.55,104.92], cn:[39.90,116.41], cy:[35.19,33.38],
+  ge:[41.72,44.79], in:[28.61,77.21], id:[-6.21,106.85], ir:[35.69,51.39], iq:[33.31,44.36],
+  il:[31.77,35.21], jp:[35.68,139.69], jo:[31.95,35.93], kz:[51.18,71.45], kw:[29.37,47.98],
+  kg:[42.87,74.59], la:[17.97,102.60], lb:[33.89,35.50], my:[3.14,101.69], mv:[4.17,73.51],
+  mn:[47.89,106.91], mm:[19.75,96.10], np:[27.72,85.32], kp:[39.02,125.75], om:[23.59,58.38],
+  pk:[33.72,73.04], ps:[31.90,35.20], ph:[14.60,120.98], qa:[25.29,51.53], sa:[24.71,46.68],
+  sg:[1.35,103.82], kr:[37.57,126.98], lk:[6.93,79.85], sy:[33.51,36.28], tw:[25.03,121.57],
+  tj:[38.56,68.79], th:[13.76,100.50], tl:[-8.56,125.57], tr:[39.93,32.86], tm:[37.96,58.33],
+  ae:[24.47,54.37], uz:[41.30,69.24], vn:[21.03,105.85], ye:[15.37,44.19],
+  al:[41.33,19.82], ad:[42.51,1.52], at:[48.21,16.37], by:[53.90,27.57], be:[50.85,4.35],
+  ba:[43.86,18.41], bg:[42.70,23.32], hr:[45.81,15.98], cz:[50.08,14.44], dk:[55.68,12.57],
+  ee:[59.44,24.75], fi:[60.17,24.94], fr:[48.86,2.35], de:[52.52,13.40], gr:[37.98,23.73],
+  hu:[47.50,19.04], is:[64.13,-21.82], ie:[53.35,-6.26], it:[41.90,12.50], xk:[42.67,21.17],
+  lv:[56.95,24.11], li:[47.14,9.52], lt:[54.69,25.28], lu:[49.61,6.13], mt:[35.90,14.51],
+  md:[47.01,28.86], mc:[43.74,7.42], me:[42.44,19.26], nl:[52.37,4.90], mk:[41.99,21.43],
+  no:[59.91,10.75], pl:[52.23,21.01], pt:[38.72,-9.14], ro:[44.43,26.10], ru:[55.75,37.62],
+  sm:[43.94,12.45], rs:[44.79,20.45], sk:[48.15,17.11], si:[46.06,14.51], es:[40.42,-3.70],
+  se:[59.33,18.07], ch:[46.95,7.45], ua:[50.45,30.52], gb:[51.51,-0.13], va:[41.90,12.45],
+  ag:[17.12,-61.85], bs:[25.05,-77.35], bb:[13.10,-59.62], bz:[17.25,-88.77], ca:[45.42,-75.70],
+  cr:[9.93,-84.08], cu:[23.13,-82.38], dm:[15.30,-61.39], do:[18.49,-69.93], sv:[13.69,-89.22],
+  gd:[12.06,-61.75], gt:[14.63,-90.51], ht:[18.59,-72.31], hn:[14.07,-87.19], jm:[17.97,-76.79],
+  mx:[19.43,-99.13], ni:[12.11,-86.24], pa:[8.98,-79.52], kn:[17.30,-62.72], lc:[14.01,-60.99],
+  vc:[13.16,-61.22], tt:[10.65,-61.52], us:[38.90,-77.04],
+  ar:[-34.60,-58.38], bo:[-19.03,-65.26], br:[-15.79,-47.88], cl:[-33.45,-70.67], co:[4.71,-74.07],
+  ec:[-0.23,-78.52], gy:[6.80,-58.16], py:[-25.30,-57.64], pe:[-12.05,-77.04], sr:[5.87,-55.17],
+  uy:[-34.90,-56.16], ve:[10.48,-66.90],
+  au:[-35.28,149.13], fj:[-18.14,178.44], ki:[1.33,172.98], mh:[7.09,171.38], fm:[6.92,158.16],
+  nr:[-0.55,166.92], nz:[-41.29,174.78], pw:[7.50,134.62], pg:[-9.44,147.18], ws:[-13.83,-171.76],
+  sb:[-9.43,159.95], to:[-21.14,-175.20], tv:[-8.52,179.20], vu:[-17.73,168.32],
+};
+
+// short, human, "where is it" description for each country
+const LOCATION = {
+  dz:"در شمال آفریقا، کنار دریای مدیترانه و در لبهٔ صحرای بزرگ قرار دارد.",
+  ao:"در جنوب غربی آفریقا، در ساحل اقیانوس اطلس قرار دارد.",
+  bj:"در غرب آفریقا، باریکه‌ای میان توگو و نیجریه، رو به خلیج گینه.",
+  bw:"در جنوب آفریقا، کشوری محصور در خشکی و پوشیده از کویر کالاهاری.",
+  bf:"در غرب آفریقا، کشوری محصور در خشکی در قلب منطقهٔ ساحل.",
+  bi:"در مرکز آفریقا، کنار دریاچه تانگانیکا، کشوری کوچک و محصور در خشکی.",
+  cv:"مجمع‌الجزایری در اقیانوس اطلس، غرب ساحل سنگال.",
+  cm:"در غرب-مرکز آفریقا، میان نیجریه و حوضهٔ کنگو، رو به خلیج گینه.",
+  cf:"در مرکز آفریقا، کشوری محصور در خشکی در قلب قاره.",
+  td:"در مرکز-شمال آفریقا، کشوری محصور در خشکی در لبهٔ جنوبی صحرای بزرگ.",
+  km:"مجمع‌الجزایری کوچک در اقیانوس هند، میان ماداگاسکار و موزامبیک.",
+  cg:"در غرب-مرکز آفریقا، کنار اقیانوس اطلس و رودخانه کنگو.",
+  cd:"در مرکز آفریقا، بزرگ‌ترین کشور این بخش قاره، حول رودخانه کنگو.",
+  dj:"در شاخ آفریقا، کنار تنگهٔ باب‌المندب، دروازهٔ ورودی دریای سرخ.",
+  eg:"در شمال شرقی آفریقا، میان دریای مدیترانه و دریای سرخ، جایی که آفریقا به آسیا می‌رسد.",
+  gq:"در غرب-مرکز آفریقا، کنار خلیج گینه.",
+  er:"در شاخ آفریقا، کنار ساحل دریای سرخ.",
+  sz:"در جنوب آفریقا، کشوری کوچک و محصور، میان آفریقای جنوبی و موزامبیک.",
+  et:"در شاخ آفریقا، کشوری کوهستانی و محصور در خشکی در شرق قاره.",
+  ga:"در غرب-مرکز آفریقا، روی خط استوا، کنار اقیانوس اطلس.",
+  gm:"در غرب آفریقا، باریکه‌ای کنار رود گامبیا، درون خاک سنگال.",
+  gh:"در غرب آفریقا، کنار خلیج گینه.",
+  gn:"در غرب آفریقا، کنار اقیانوس اطلس.",
+  gw:"در غرب آفریقا، کنار اقیانوس اطلس، میان گینه و سنگال.",
+  ci:"در غرب آفریقا، کنار خلیج گینه.",
+  ke:"در شرق آفریقا، روی خط استوا، کنار اقیانوس هند.",
+  ls:"در جنوب آفریقا، کاملاً محصور درون خاک آفریقای جنوبی، در ارتفاعات بلند.",
+  lr:"در غرب آفریقا، کنار اقیانوس اطلس.",
+  ly:"در شمال آفریقا، کنار دریای مدیترانه، بیشتر پوشیده از صحرا.",
+  mg:"جزیره‌ای بزرگ در اقیانوس هند، جدا از سواحل جنوب شرقی آفریقا.",
+  mw:"در جنوب شرقی آفریقا، کشوری باریک کنار دریاچه مالاوی، محصور در خشکی.",
+  ml:"در غرب آفریقا، کشوری محصور در خشکی که بخش بزرگی از آن صحراست.",
+  mr:"در غرب آفریقا، کنار اقیانوس اطلس، در لبهٔ صحرای بزرگ.",
+  mu:"جزیره‌ای در اقیانوس هند، شرق ماداگاسکار.",
+  ma:"در شمال غربی آفریقا، کنار اقیانوس اطلس و دریای مدیترانه، روبه‌روی اسپانیا.",
+  mz:"در جنوب شرقی آفریقا، کنار اقیانوس هند.",
+  na:"در جنوب غربی آفریقا، کنار اقیانوس اطلس، با کویر نامیب در امتداد ساحل.",
+  ne:"در غرب آفریقا، کشوری محصور در خشکی، بیشتر در دل صحرای بزرگ.",
+  ng:"در غرب آفریقا، کنار خلیج گینه.",
+  rw:"در مرکز-شرق آفریقا، کشوری کوچک، کوهستانی و محصور در خشکی.",
+  st:"مجمع‌الجزایری کوچک در خلیج گینه، کنار ساحل غرب آفریقا.",
+  sn:"در غربی‌ترین نقطهٔ آفریقا، کنار اقیانوس اطلس.",
+  sc:"مجمع‌الجزایری در اقیانوس هند، شمال شرق ماداگاسکار.",
+  sl:"در غرب آفریقا، کنار اقیانوس اطلس.",
+  so:"در شاخ آفریقا، با طولانی‌ترین ساحل سرزمین اصلی قاره، کنار اقیانوس هند.",
+  za:"در جنوبی‌ترین نوک آفریقا، میان اقیانوس اطلس و اقیانوس هند.",
+  ss:"در شرق-مرکز آفریقا، کشوری محصور در خشکی در حوضهٔ رود نیل.",
+  sd:"در شمال شرقی آفریقا، کنار دریای سرخ، در مسیر رود نیل.",
+  tz:"در شرق آفریقا، کنار اقیانوس هند، خانهٔ کوه کیلیمانجارو.",
+  tg:"در غرب آفریقا، نواری باریک رو به خلیج گینه.",
+  tn:"در شمالی‌ترین نقطهٔ آفریقا، کنار دریای مدیترانه.",
+  ug:"در شرق-مرکز آفریقا، کشوری محصور در خشکی، کنار دریاچه ویکتوریا.",
+  zm:"در جنوب آفریقا، کشوری محصور در خشکی در فلات مرکزی قاره.",
+  zw:"در جنوب آفریقا، کشوری محصور در خشکی، میان رودخانه‌های زامبزی و لیمپوپو.",
+
+  af:"در مرکز-جنوب آسیا، کشوری کوهستانی و محصور در خشکی، میان ایران و پاکستان.",
+  am:"در قفقاز جنوبی، کشوری کوهستانی و محصور در خشکی.",
+  az:"در قفقاز، کنار دریای خزر.",
+  bh:"جزیره‌ای کوچک در خلیج فارس.",
+  bd:"در جنوب آسیا، در دلتای رودخانه‌های گنگ و برهماپوترا، کنار خلیج بنگال.",
+  bt:"در کوهستان هیمالیا، میان هند و چین، کشوری محصور در خشکی.",
+  bn:"در جزیرهٔ بورنئو، جنوب شرق آسیا، کنار دریای چین جنوبی.",
+  kh:"در جنوب شرق آسیا، کنار خلیج تایلند.",
+  cn:"در شرق آسیا، بزرگ‌ترین کشور این بخش قاره، کنار اقیانوس آرام.",
+  cy:"جزیره‌ای در شرق دریای مدیترانه.",
+  ge:"در قفقاز، میان دریای سیاه و کوه‌های قفقاز.",
+  in:"در جنوب آسیا، شبه‌قاره‌ای بزرگ میان اقیانوس هند، دریای عرب و خلیج بنگال.",
+  id:"در جنوب شرق آسیا، بزرگ‌ترین مجمع‌الجزایر جهان، میان اقیانوس هند و آرام.",
+  ir:"در غرب آسیا، میان دریای خزر در شمال و خلیج فارس در جنوب.",
+  iq:"در غرب آسیا، حول رودخانه‌های دجله و فرات.",
+  il:"در شرق مدیترانه، در باریکه‌ای کنار دریای مدیترانه.",
+  jp:"مجمع‌الجزایری در شرق آسیا، در اقیانوس آرام.",
+  jo:"در غرب آسیا، کشوری کویری در شرق دریای مرده.",
+  kz:"در مرکز آسیا، بزرگ‌ترین کشور محصور در خشکی جهان، کنار دریای خزر.",
+  kw:"در شمال شرق شبه‌جزیره عربستان، کنار خلیج فارس.",
+  kg:"در مرکز آسیا، کشوری کوهستانی و محصور در خشکی.",
+  la:"در جنوب شرق آسیا، تنها کشور محصور در خشکی این منطقه.",
+  lb:"در شرق مدیترانه، نواری باریک کنار دریای مدیترانه.",
+  my:"در جنوب شرق آسیا، میان شبه‌جزیره مالایا و جزیرهٔ بورنئو.",
+  mv:"مجمع‌الجزایری کوچک و کم‌ارتفاع در اقیانوس هند، جنوب هند.",
+  mn:"در مرکز-شرق آسیا، کشوری محصور در خشکی میان روسیه و چین.",
+  mm:"در جنوب شرق آسیا، کنار خلیج بنگال و دریای آندامان.",
+  np:"در دامنهٔ جنوبی هیمالیا، میان هند و چین، کشوری محصور در خشکی.",
+  kp:"در شرق آسیا، در نیمهٔ شمالی شبه‌جزیره کره.",
+  om:"در جنوب شرق شبه‌جزیره عربستان، کنار دریای عرب.",
+  pk:"در جنوب آسیا، کنار دریای عرب، میان هند، ایران و افغانستان.",
+  ps:"در شرق مدیترانه، سرزمینی میان اسرائیل و اردن.",
+  ph:"مجمع‌الجزایری در جنوب شرق آسیا، در اقیانوس آرام.",
+  qa:"شبه‌جزیره‌ای کوچک در خلیج فارس.",
+  sa:"در بخش بزرگی از شبه‌جزیره عربستان، میان دریای سرخ و خلیج فارس.",
+  sg:"جزیره‌شهری در نوک جنوبی شبه‌جزیره مالایا.",
+  kr:"در شرق آسیا، نیمهٔ جنوبی شبه‌جزیره کره.",
+  lk:"جزیره‌ای در اقیانوس هند، جنوب شرق هند.",
+  sy:"در شرق مدیترانه، کنار ساحل دریای مدیترانه.",
+  tw:"جزیره‌ای در شرق آسیا، در اقیانوس آرام، نزدیک سواحل جنوب شرقی چین.",
+  tj:"در مرکز آسیا، کشوری کوهستانی و محصور در خشکی.",
+  th:"در جنوب شرق آسیا، میان خلیج تایلند و شبه‌جزیره هندوچین.",
+  tl:"در جنوب شرق آسیا، نیمهٔ شرقی جزیره تیمور.",
+  tr:"در دو قاره، میان اروپای جنوب شرقی و آسیای غربی، کنار دریای مدیترانه و سیاه.",
+  tm:"در مرکز آسیا، کنار دریای خزر.",
+  ae:"در شرق شبه‌جزیره عربستان، کنار خلیج فارس.",
+  uz:"در مرکز آسیا، یکی از دو کشور محصور در خشکیِ دوگانهٔ جهان.",
+  vn:"در جنوب شرق آسیا، نواری دراز کنار دریای چین جنوبی.",
+  ye:"در جنوب شبه‌جزیره عربستان، کنار دریای سرخ و خلیج عدن.",
+
+  al:"در جنوب شرق اروپا، کنار دریای آدریاتیک، در شبه‌جزیره بالکان.",
+  ad:"میان اسپانیا و فرانسه، در دل کوه‌های پیرنه.",
+  at:"در مرکز اروپا، کشوری کوهستانی و محصور در خشکی، در دل آلپ.",
+  by:"در شرق اروپا، کشوری محصور در خشکی، میان روسیه و لهستان.",
+  be:"در غرب اروپا، کنار دریای شمال.",
+  ba:"در جنوب شرق اروپا، در شبه‌جزیره بالکان، نزدیک دریای آدریاتیک.",
+  bg:"در جنوب شرق اروپا، کنار دریای سیاه.",
+  hr:"در جنوب شرق اروپا، کنار دریای آدریاتیک.",
+  cz:"در مرکز اروپا، کشوری محصور در خشکی.",
+  dk:"در شمال اروپا، شبه‌جزیره‌ای میان دریای شمال و دریای بالتیک.",
+  ee:"در شمال اروپا، کنار دریای بالتیک.",
+  fi:"در شمال اروپا، کنار دریای بالتیک، هم‌مرز با دایرهٔ قطب شمال.",
+  fr:"در غرب اروپا، میان دریای مدیترانه، اقیانوس اطلس و کوه‌های آلپ.",
+  de:"در مرکز اروپا، همسایهٔ بیشترین تعداد کشور در این بخش قاره.",
+  gr:"در جنوب شرق اروپا، در نوک جنوبی شبه‌جزیره بالکان، کنار دریای مدیترانه.",
+  hu:"در مرکز اروپا، کشوری محصور در خشکی در حوضهٔ رود دانوب.",
+  is:"جزیره‌ای در شمال اقیانوس اطلس، نزدیک دایرهٔ قطب شمال.",
+  ie:"جزیره‌ای در غربی‌ترین نقطهٔ اروپا، در اقیانوس اطلس.",
+  it:"در جنوب اروپا، شبه‌جزیره‌ای چکمه‌مانند در دریای مدیترانه.",
+  xk:"در جنوب شرق اروپا، در شبه‌جزیره بالکان، کشوری محصور در خشکی.",
+  lv:"در شمال اروپا، کنار دریای بالتیک.",
+  li:"در مرکز اروپا، کشوری کوچک و محصور در خشکی، میان سوئیس و اتریش.",
+  lt:"در شمال اروپا، کنار دریای بالتیک.",
+  lu:"در غرب اروپا، کشوری کوچک و محصور در خشکی، میان فرانسه، آلمان و بلژیک.",
+  mt:"مجمع‌الجزایری کوچک در میانهٔ دریای مدیترانه.",
+  md:"در شرق اروپا، کشوری محصور در خشکی، میان رومانی و اوکراین.",
+  mc:"در جنوب فرانسه، کنار دریای مدیترانه، یکی از کوچک‌ترین کشورهای جهان.",
+  me:"در جنوب شرق اروپا، کنار دریای آدریاتیک.",
+  nl:"در غرب اروپا، کنار دریای شمال، بخش بزرگی زیر سطح دریا.",
+  mk:"در جنوب شرق اروپا، در شبه‌جزیره بالکان، کشوری محصور در خشکی.",
+  no:"در شمال اروپا، با خط ساحلی طولانی و پرپیچ‌وخم کنار اقیانوس اطلس شمالی.",
+  pl:"در مرکز اروپا، کنار دریای بالتیک.",
+  pt:"در جنوب غربی اروپا، غربی‌ترین کشور سرزمین اصلی اروپا، کنار اقیانوس اطلس.",
+  ro:"در جنوب شرق اروپا، کنار دریای سیاه و کوه‌های کارپات.",
+  ru:"پهناورترین کشور جهان، از شرق اروپا تا شمال آسیا کشیده شده است.",
+  sm:"در دل شبه‌جزیره ایتالیا، یکی از کوچک‌ترین کشورهای جهان.",
+  rs:"در جنوب شرق اروپا، کشوری محصور در خشکی در شبه‌جزیره بالکان.",
+  sk:"در مرکز اروپا، کشوری کوهستانی و محصور در خشکی.",
+  si:"در جنوب اروپا، گوشه‌ای کوچک کنار دریای آدریاتیک.",
+  es:"در جنوب غربی اروپا، بیشتر شبه‌جزیره ایبری، میان اقیانوس اطلس و دریای مدیترانه.",
+  se:"در شمال اروپا، در شبه‌جزیره اسکاندیناوی، کنار دریای بالتیک.",
+  ch:"در مرکز اروپا، کشوری کوهستانی و محصور در خشکی، در دل آلپ.",
+  ua:"در شرق اروپا، کنار دریای سیاه.",
+  gb:"جزیره‌ای در شمال غربی اروپا، جدا از خشکی اصلی با کانال مانش.",
+  va:"در دل شهر رم ایتالیا، کوچک‌ترین کشور مستقل جهان.",
+
+  ag:"در دریای کارائیب، جزیره‌ای کوچک در شرق مجمع‌الجزایر آنتیل کوچک.",
+  bs:"مجمع‌الجزایری در اقیانوس اطلس، جنوب شرق فلوریدا.",
+  bb:"در دریای کارائیب، شرقی‌ترین جزیرهٔ آنتیل کوچک.",
+  bz:"در آمریکای مرکزی، کنار دریای کارائیب، جنوب مکزیک.",
+  ca:"در شمالی‌ترین نقطهٔ آمریکای شمالی، میان اقیانوس اطلس، آرام و منجمد شمالی.",
+  cr:"در آمریکای مرکزی، میان اقیانوس آرام و دریای کارائیب.",
+  cu:"بزرگ‌ترین جزیرهٔ دریای کارائیب، جنوب فلوریدا.",
+  dm:"در دریای کارائیب، جزیره‌ای کوهستانی در آنتیل کوچک.",
+  do:"در دریای کارائیب، نیمهٔ شرقی جزیره هیسپانیولا.",
+  sv:"در آمریکای مرکزی، تنها کشور بدون ساحل کارائیب این منطقه، کنار اقیانوس آرام.",
+  gd:"در جنوبی‌ترین نقطهٔ آنتیل کوچک، دریای کارائیب.",
+  gt:"در آمریکای مرکزی، میان مکزیک و اقیانوس آرام و کارائیب.",
+  ht:"در دریای کارائیب، نیمهٔ غربی جزیره هیسپانیولا.",
+  hn:"در آمریکای مرکزی، میان دریای کارائیب و اقیانوس آرام.",
+  jm:"جزیره‌ای در دریای کارائیب، جنوب کوبا.",
+  mx:"در جنوب آمریکای شمالی، میان اقیانوس آرام و خلیج مکزیک.",
+  ni:"در آمریکای مرکزی، میان دریای کارائیب و اقیانوس آرام.",
+  pa:"در باریک‌ترین نقطهٔ آمریکای مرکزی، پل میان دو نیمهٔ قارهٔ آمریکا.",
+  kn:"در دریای کارائیب، کوچک‌ترین کشور این بخش قاره.",
+  lc:"در دریای کارائیب، جزیره‌ای آتشفشانی در آنتیل کوچک.",
+  vc:"در دریای کارائیب، مجمع‌الجزایری در آنتیل کوچک.",
+  tt:"در جنوبی‌ترین نقطهٔ دریای کارائیب، نزدیک سواحل ونزوئلا.",
+  us:"در میانهٔ آمریکای شمالی، میان اقیانوس اطلس و آرام.",
+
+  ar:"در جنوبی‌ترین بخش آمریکای جنوبی، کشیده تا نزدیکی قطب جنوب.",
+  bo:"در مرکز آمریکای جنوبی، کشوری کوهستانی و محصور در خشکی، در دل آند.",
+  br:"بزرگ‌ترین کشور آمریکای جنوبی، بیشتر در حوضهٔ آمازون، کنار اقیانوس اطلس.",
+  cl:"در غرب آمریکای جنوبی، نواری بسیار باریک و کشیده کنار اقیانوس آرام.",
+  co:"در شمال غربی آمریکای جنوبی، تنها کشور این قاره با ساحل در دو اقیانوس.",
+  ec:"در غرب آمریکای جنوبی، درست روی خط استوا، کنار اقیانوس آرام.",
+  gy:"در شمال آمریکای جنوبی، کنار اقیانوس اطلس.",
+  py:"در مرکز آمریکای جنوبی، کشوری محصور در خشکی.",
+  pe:"در غرب آمریکای جنوبی، میان رشته‌کوه آند و اقیانوس آرام.",
+  sr:"در شمال آمریکای جنوبی، کوچک‌ترین کشور این قاره، کنار اقیانوس اطلس.",
+  uy:"در جنوب شرقی آمریکای جنوبی، میان برزیل و آرژانتین، کنار اقیانوس اطلس.",
+  ve:"در شمال آمریکای جنوبی، کنار دریای کارائیب.",
+
+  au:"قاره‌ای-کشور در اقیانوسیه، میان اقیانوس هند و آرام.",
+  fj:"مجمع‌الجزایری در اقیانوس آرام جنوبی.",
+  ki:"مجمع‌الجزایری در اقیانوس آرام، پراکنده روی خط استوا و خط تغییر تاریخ.",
+  mh:"مجمع‌الجزایری کم‌ارتفاع در اقیانوس آرام شمالی.",
+  fm:"مجمع‌الجزایری در اقیانوس آرام شمالی، بخشی از میکرونزی.",
+  nr:"جزیره‌ای کوچک و دورافتاده در اقیانوس آرام.",
+  nz:"دو جزیرهٔ اصلی در جنوب غربی اقیانوس آرام.",
+  pw:"مجمع‌الجزایری در غرب اقیانوس آرام.",
+  pg:"در نیمهٔ شرقی جزیرهٔ گینهٔ نو، شمال استرالیا.",
+  ws:"مجمع‌الجزایری در اقیانوس آرام جنوبی.",
+  sb:"مجمع‌الجزایری در اقیانوس آرام جنوبی، شرق پاپوآگینه‌نو.",
+  to:"مجمع‌الجزایری در اقیانوس آرام جنوبی.",
+  tv:"مجمع‌الجزایری بسیار کوچک در اقیانوس آرام.",
+  vu:"مجمع‌الجزایری آتشفشانی در اقیانوس آرام جنوبی.",
+};
+
+// difficulty classification: easy = widely known worldwide, hard = less commonly recognized
+const DIFFICULTY = {
+  // Africa
+  eg:"easy", za:"easy", ng:"easy", ke:"easy", ma:"easy",
+  dz:"medium", ao:"medium", et:"medium", gh:"medium", tz:"medium", tn:"medium", ug:"medium",
+  zm:"medium", zw:"medium", mz:"medium", sn:"medium", ci:"medium", cm:"medium", ly:"medium",
+  mg:"medium", rw:"medium",
+  bj:"hard", bw:"hard", bf:"hard", bi:"hard", cv:"hard", cf:"hard", td:"hard", km:"hard",
+  cg:"hard", cd:"hard", dj:"hard", gq:"hard", er:"hard", sz:"hard", ga:"hard", gm:"hard",
+  gn:"hard", gw:"hard", ls:"hard", lr:"hard", ml:"hard", mr:"hard", mu:"hard", na:"hard",
+  ne:"hard", st:"hard", sc:"hard", sl:"hard", so:"hard", ss:"hard", sd:"hard", tg:"hard", mw:"hard",
+  // Asia
+  cn:"easy", jp:"easy", kr:"easy", in:"easy", sa:"easy", tr:"easy", ir:"easy", iq:"easy",
+  il:"easy", th:"easy", vn:"easy", id:"easy", ph:"easy", pk:"easy",
+  af:"medium", bd:"medium", my:"medium", sg:"medium", ae:"medium", qa:"medium", kw:"medium",
+  lb:"medium", jo:"medium", sy:"medium", mm:"medium", np:"medium", lk:"medium", mn:"medium",
+  kz:"medium", kp:"medium", tw:"medium",
+  am:"hard", az:"hard", bh:"hard", bt:"hard", bn:"hard", kh:"hard", cy:"hard", ge:"hard",
+  kg:"hard", la:"hard", mv:"hard", om:"hard", ps:"hard", tj:"hard", tl:"hard", tm:"hard",
+  uz:"hard", ye:"hard",
+  // Europe
+  gb:"easy", fr:"easy", de:"easy", it:"easy", es:"easy", pt:"easy", ru:"easy", gr:"easy",
+  nl:"easy", ch:"easy", se:"easy", no:"easy", dk:"easy", pl:"easy", ua:"easy", at:"easy",
+  be:"medium", ie:"medium", hu:"medium", cz:"medium", ro:"medium", bg:"medium", hr:"medium",
+  rs:"medium", fi:"medium", is:"medium", lt:"medium", lv:"medium", ee:"medium", sk:"medium", si:"medium",
+  al:"hard", ad:"hard", by:"hard", ba:"hard", xk:"hard", li:"hard", lu:"hard", mt:"hard",
+  md:"hard", mc:"hard", me:"hard", mk:"hard", sm:"hard", va:"hard",
+  // North America
+  us:"easy", ca:"easy", mx:"easy", cu:"easy", jm:"easy", pa:"easy",
+  cr:"medium", do:"medium", gt:"medium", ht:"medium", hn:"medium", ni:"medium", sv:"medium", bs:"medium",
+  ag:"hard", bb:"hard", bz:"hard", dm:"hard", gd:"hard", kn:"hard", lc:"hard", vc:"hard", tt:"hard",
+  // South America
+  br:"easy", ar:"easy", co:"easy", pe:"easy", cl:"easy",
+  ve:"medium", ec:"medium", bo:"medium", uy:"medium",
+  py:"hard", gy:"hard", sr:"hard",
+  // Oceania
+  au:"easy", nz:"easy",
+  fj:"medium", pg:"medium", ws:"medium",
+  ki:"hard", mh:"hard", fm:"hard", nr:"hard", pw:"hard", sb:"hard", to:"hard", tv:"hard", vu:"hard",
+};
+
+const MAP_URL = "https://upload.wikimedia.org/wikipedia/commons/8/83/Equirectangular_projection_SW.jpg";
+const MAP_IMG_W = 2048, MAP_IMG_H = 1024; // known pixel size of the map file above
+const MAP_ZOOM = 3.2; // how much closer than a plain full-world fit
+
+// Positions & scales the map image inside a frame so the given country's
+// coordinates land dead-center and the surrounding region fills the frame,
+// instead of showing a tiny dot on a shrunk whole-world thumbnail.
+function positionMapFrame(frameEl, imgEl, code){
+  const coord = COORDS[code];
+  if(!frameEl || !imgEl || !coord) return;
+  if(imgEl.getAttribute('src') !== MAP_URL) imgEl.src = MAP_URL;
+
+  const [lat, lon] = coord;
+  const xFrac = (lon + 180) / 360;
+  const yFrac = (90 - lat) / 180;
+
+  const cw = frameEl.clientWidth, ch = frameEl.clientHeight;
+  if(cw === 0 || ch === 0) return;
+
+  const baseScale = Math.max(cw / MAP_IMG_W, ch / MAP_IMG_H); // "cover" scale
+  const scale = baseScale * MAP_ZOOM;
+  const sw = MAP_IMG_W * scale, sh = MAP_IMG_H * scale;
+
+  let left = cw/2 - xFrac*sw;
+  let top = ch/2 - yFrac*sh;
+  left = Math.min(0, Math.max(cw - sw, left));
+  top = Math.min(0, Math.max(ch - sh, top));
+
+  imgEl.style.width = sw + 'px';
+  imgEl.style.height = sh + 'px';
+  imgEl.style.transform = `translate(${left}px, ${top}px)`;
+}
+
+const toFa = n => n.toString().replace(/\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]);
+const flagUrl = code => `https://flagcdn.com/w160/${code}.png`;
+const flagImg = (code, alt, cls) => `<img class="${cls}" src="${flagUrl(code)}" alt="پرچم ${alt}" loading="lazy">`;
+
+document.getElementById('stat-count').textContent = toFa(COUNTRIES.length);
+document.getElementById('serial').textContent = "سریال: GEO-" + toFa(Math.floor(1000+Math.random()*9000));
+
+// ---------- navigation ----------
+function goTo(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+name).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+  const homeBtn = document.getElementById('home-btn');
+  homeBtn.classList.toggle('hidden', name === 'intro');
+}
+
+function exitQuiz(){
+  const sure = confirm('از آزمون خارج شوی؟ پیشرفت این آزمون ذخیره نمی‌شود.');
+  if(sure) goTo('quizConfig');
+}
+
+// ---------- learning ----------
+let seenSet = new Set();
+let activeContinent = 'all';
+let searchTerm = '';
+
+function buildContinentChips(){
+  const wrap = document.getElementById('continent-chips');
+  wrap.innerHTML = '';
+  CONTINENTS.forEach(c => {
+    const chip = document.createElement('button');
+    chip.className = 'chip' + (c.key === activeContinent ? ' active' : '');
+    chip.textContent = c.label;
+    chip.onclick = () => { activeContinent = c.key; buildContinentChips(); buildLearnCards(); };
+    wrap.appendChild(chip);
+  });
+}
+
+function filteredCountries(){
+  return COUNTRIES.filter((c, i) => {
+    const contOk = activeContinent === 'all' || c.cont === activeContinent;
+    const term = searchTerm.trim();
+    const searchOk = !term || c.name.includes(term) || c.capital.includes(term);
+    return contOk && searchOk;
+  });
+}
+
+function buildLearnCards(){
+  const grid = document.getElementById('card-grid');
+  grid.innerHTML = '';
+  const list = filteredCountries();
+  if(list.length === 0){
+    grid.innerHTML = '<div class="empty-note">چیزی پیدا نشد. جستجو یا فیلتر را تغییر بده.</div>';
+    return;
+  }
+  list.forEach(c => {
+    const idx = COUNTRIES.indexOf(c);
+    const card = document.createElement('div');
+    card.className = 'flip-card' + (seenSet.has(idx) ? ' seen' : '');
+    card.innerHTML = `
+      <div class="flip-inner">
+        <div class="flip-face flip-front">
+          ${flagImg(c.code, c.name, "flag")}
+          <div class="cname">${c.name}</div>
+        </div>
+        <div class="flip-face flip-back">
+          <div class="cap-label">پایتخت</div>
+          <div class="cap-name">${c.capital}</div>
+        </div>
+      </div>`;
+    card.addEventListener('click', () => {
+      card.classList.toggle('flipped');
+      if(!seenSet.has(idx)){
+        seenSet.add(idx);
+        card.classList.add('seen');
+        updateSeenCounter();
+      }
+    });
+    grid.appendChild(card);
+  });
+}
+function updateSeenCounter(){
+  document.getElementById('seen-counter').textContent =
+    `دیده‌شده: ${toFa(seenSet.size)} از ${toFa(COUNTRIES.length)}`;
+}
+document.getElementById('search-box').addEventListener('input', (e) => {
+  searchTerm = e.target.value;
+  buildLearnCards();
+});
+buildContinentChips();
+buildLearnCards();
+updateSeenCounter();
+
+// ---------- study (flashcards) ----------
+let studyOrder = [];
+let studyIndex = 0;
+
+function startStudy(){
+  studyOrder = shuffled(COUNTRIES).slice(0, 10);
+  studyIndex = 0;
+  document.getElementById('study-active').style.display = '';
+  document.getElementById('study-complete').style.display = 'none';
+  goTo('study');
+  renderStudyCard();
+}
+
+function renderStudyCard(){
+  const c = studyOrder[studyIndex];
+  const total = studyOrder.length;
+  document.getElementById('study-counter').textContent = `کارت ${toFa(studyIndex+1)} از ${toFa(total)}`;
+  document.getElementById('study-progress-fill').style.width = (studyIndex/total*100) + '%';
+
+  const card = document.getElementById('study-card');
+  card.classList.remove('flipped');
+
+  document.getElementById('study-flag').src = flagUrl(c.code);
+  document.getElementById('study-flag').alt = 'پرچم ' + c.name;
+  document.getElementById('study-name').textContent = c.name;
+  document.getElementById('study-capital').textContent = c.capital;
+  positionMapFrame(document.getElementById('study-map-frame'), document.getElementById('study-map-img'), c.code);
+  document.getElementById('study-location').textContent = LOCATION[c.code] || '';
+
+  const facts = FACTS[c.code] || [];
+  const factsList = document.getElementById('study-facts');
+  factsList.innerHTML = facts.map(f => `<li>${f}</li>`).join('');
+
+  document.getElementById('study-prev').disabled = (studyIndex === 0);
+  document.getElementById('study-next').textContent = (studyIndex === total-1) ? 'پایان' : 'بعدی';
+}
+
+// toggle flip on card click/tap
+document.getElementById('study-card').addEventListener('click', () => {
+  document.getElementById('study-card').classList.toggle('flipped');
+});
+
+// keep the zoomed map crop correct if the viewport/card width changes
+window.addEventListener('resize', () => {
+  const studyScreen = document.getElementById('screen-study');
+  if(studyScreen && studyScreen.classList.contains('active') && studyOrder.length){
+    const c = studyOrder[studyIndex];
+    positionMapFrame(document.getElementById('study-map-frame'), document.getElementById('study-map-img'), c.code);
+  }
+});
+
+function prevStudy(){
+  if(studyIndex > 0){
+    studyIndex--;
+    renderStudyCard();
+  }
+}
+
+function nextStudy(){
+  if(studyIndex < studyOrder.length - 1){
+    studyIndex++;
+    renderStudyCard();
+  } else {
+    document.getElementById('study-progress-fill').style.width = '100%';
+    document.getElementById('study-active').style.display = 'none';
+    document.getElementById('study-complete').style.display = '';
+  }
+}
+
+// ---------- quiz config ----------
+const QUIZ_TYPES = [
+  {key:"capital", icon:"🏛️", title:"آزمون پایتخت‌ها", desc:"پرچم را می‌بینی، پایتخت درست را انتخاب کن."},
+  {key:"flag", icon:"🏳️", title:"آزمون پرچم‌ها", desc:"اسم کشور را می‌بینی، پرچم درست را انتخاب کن."},
+];
+let quizType = 'capital';
+function buildTypeRow(){
+  const wrap = document.getElementById('type-row');
+  wrap.innerHTML = '';
+  QUIZ_TYPES.forEach(t => {
+    const card = document.createElement('button');
+    card.className = 'type-card' + (t.key === quizType ? ' active' : '');
+    card.innerHTML = `<span class="ti">${t.icon}</span><span class="tt">${t.title}</span><span class="td">${t.desc}</span>`;
+    card.onclick = () => { quizType = t.key; buildTypeRow(); };
+    wrap.appendChild(card);
+  });
+}
+buildTypeRow();
+
+const QUIZ_LENGTH = 10;
+const DIFFICULTY_POOLS = {
+  easy: COUNTRIES.filter(c => DIFFICULTY[c.code] === 'easy'),
+  medium: COUNTRIES.filter(c => DIFFICULTY[c.code] === 'medium'),
+  hard: COUNTRIES.filter(c => DIFFICULTY[c.code] === 'hard'),
+};
+const DIFFICULTIES = [
+  {key:"easy", icon:"🟢", title:"آسان", desc:`کشورهای معروف و پرتکرار (${toFa(DIFFICULTY_POOLS.easy.length)} کشور)`},
+  {key:"medium", icon:"🟡", title:"متوسط", desc:`کشورهای نسبتاً شناخته‌شده (${toFa(DIFFICULTY_POOLS.medium.length)} کشور)`},
+  {key:"hard", icon:"🔴", title:"سخت", desc:`کشورهای کمترشناخته‌شده (${toFa(DIFFICULTY_POOLS.hard.length)} کشور)`},
+];
+let quizDifficulty = 'easy';
+let currentPool = DIFFICULTY_POOLS.easy;
+function buildDifficultyRow(){
+  const wrap = document.getElementById('difficulty-row');
+  wrap.innerHTML = '';
+  DIFFICULTIES.forEach(d => {
+    const card = document.createElement('button');
+    card.className = 'type-card' + (d.key === quizDifficulty ? ' active' : '');
+    card.innerHTML = `<span class="ti">${d.icon}</span><span class="tt">${d.title}</span><span class="td">${d.desc}</span>`;
+    card.onclick = () => { quizDifficulty = d.key; buildDifficultyRow(); };
+    wrap.appendChild(card);
+  });
+}
+buildDifficultyRow();
+
+// ---------- quiz ----------
+let quizOrder = [];
+let qIndex = 0;
+let score = 0;
+let answers = [];
+
+function shuffled(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+// remembers the quiz format (type + difficulty) the user picked, so "تلاش مجدد" can repeat it exactly
+let savedFormat = null;
+
+function startQuiz(){
+  savedFormat = { type: quizType, difficulty: quizDifficulty };
+
+  currentPool = DIFFICULTY_POOLS[quizDifficulty];
+  quizOrder = shuffled(currentPool).slice(0, QUIZ_LENGTH);
+  qIndex = 0;
+  score = 0;
+  answers = [];
+  const typeLabel = QUIZ_TYPES.find(t => t.key === quizType).title;
+  const diffLabel = DIFFICULTIES.find(d => d.key === quizDifficulty).title;
+  document.getElementById('quiz-heading').textContent = `${typeLabel} · سطح ${diffLabel}`;
+  goTo('quiz');
+  renderQuestion();
+}
+
+// repeats the last quiz with the same saved format but freshly shuffled questions
+function retryQuiz(){
+  if(!savedFormat) { goTo('quizConfig'); return; }
+  quizType = savedFormat.type;
+  quizDifficulty = savedFormat.difficulty;
+  startQuiz();
+}
+
+function renderQuestion(){
+  const total = quizOrder.length;
+  document.getElementById('quiz-counter').textContent = `سؤال ${toFa(qIndex+1)} از ${toFa(total)}`;
+  document.getElementById('progress-fill').style.width = ((qIndex)/total*100) + '%';
+  document.getElementById('feedback').textContent = '';
+  document.getElementById('feedback').className = 'feedback-row';
+
+  const current = quizOrder[qIndex];
+  const stimulus = document.getElementById('quiz-flag');
+  const question = document.getElementById('quiz-question');
+  const optWrap = document.getElementById('quiz-options');
+  optWrap.innerHTML = '';
+
+  if(quizType === 'capital'){
+    stimulus.innerHTML = flagImg(current.code, current.name, "quiz-flag");
+    question.textContent = `پایتخت ${current.name} کدام است؟`;
+
+    const distractors = shuffled(currentPool.filter(c => c.capital !== current.capital)).slice(0,3).map(c => c.capital);
+    const options = shuffled([current.capital, ...distractors]);
+    options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'opt';
+      btn.textContent = opt;
+      btn.onclick = () => selectAnswer(opt === current.capital, opt, current, btn);
+      optWrap.appendChild(btn);
+    });
+  } else {
+    stimulus.innerHTML = `<div class="country-badge">${current.name}</div>`;
+    question.textContent = 'پرچم این کشور کدام است؟';
+
+    const distractors = shuffled(currentPool.filter(c => c.code !== current.code)).slice(0,3);
+    const options = shuffled([current, ...distractors]);
+    options.forEach(optCountry => {
+      const btn = document.createElement('button');
+      btn.className = 'opt opt-flag';
+      btn.innerHTML = flagImg(optCountry.code, optCountry.name, "");
+      btn.onclick = () => selectAnswer(optCountry.code === current.code, optCountry.name, current, btn);
+      optWrap.appendChild(btn);
+    });
+  }
+}
+
+function selectAnswer(isCorrect, chosenLabel, current, btnEl){
+  const allBtns = document.querySelectorAll('.opt');
+  allBtns.forEach(b => b.disabled = true);
+
+  if(isCorrect){
+    score++;
+    btnEl.classList.add('correct');
+  } else {
+    btnEl.classList.add('wrong');
+    const correctLabel = quizType === 'capital' ? current.capital : current.name;
+    allBtns.forEach(b => {
+      const label = quizType === 'capital' ? b.textContent : b.querySelector('img')?.alt.replace('پرچم ','');
+      if(label === correctLabel) b.classList.add('correct');
+    });
+  }
+
+  const fb = document.getElementById('feedback');
+  const correctText = quizType === 'capital' ? current.capital : `پرچم ${current.name}`;
+  fb.textContent = isCorrect ? '✔ درست بود!' : `✘ نادرست — پاسخ درست: ${correctText}`;
+  fb.className = 'feedback-row ' + (isCorrect ? 'correct' : 'wrong');
+
+  answers.push({
+    name:current.name, code:current.code,
+    correctLabel: quizType === 'capital' ? current.capital : current.name,
+    chosenLabel, correct:isCorrect
+  });
+
+  setTimeout(() => {
+    qIndex++;
+    if(qIndex < quizOrder.length){
+      renderQuestion();
+    } else {
+      document.getElementById('progress-fill').style.width = '100%';
+      showResult();
+    }
+  }, 1100);
+}
+
+function showResult(){
+  if(savedFormat){
+    const typeLabel = QUIZ_TYPES.find(t => t.key === savedFormat.type).title;
+    const diffLabel = DIFFICULTIES.find(d => d.key === savedFormat.difficulty).title;
+    document.getElementById('result-format-label').textContent = `${typeLabel} · سطح ${diffLabel}`;
+  }
+  document.getElementById('final-score').textContent = toFa(score);
+  document.getElementById('final-den').textContent = `از ${toFa(quizOrder.length)}`;
+  const pct = Math.round(score/quizOrder.length*100);
+  let msg, sub;
+  if(pct === 100){ msg = 'عالی! نمره کامل 🏅'; sub = 'گذرنامه‌ات مهر طلایی خورد.'; }
+  else if(pct >= 80){ msg = 'خیلی خوب!'; sub = 'یک قدم تا استاد جغرافیا شدن.'; }
+  else if(pct >= 50){ msg = 'بد نبود.'; sub = 'یک دور دیگه یادگیری بزن و دوباره امتحان کن.'; }
+  else { msg = 'شروع خوبیه.'; sub = 'برو بخش یادگیری، دور بعد بهتر می‌شی.'; }
+  document.getElementById('grade-msg').textContent = msg;
+  document.getElementById('grade-sub').textContent = sub;
+
+  const stampHolder = document.getElementById('stamp-holder');
+  stampHolder.innerHTML = '';
+  if(pct >= 70){
+    const stamp = document.createElement('div');
+    stamp.className = 'stamp';
+    stamp.textContent = 'تأیید شد';
+    stampHolder.appendChild(stamp);
+  }
+
+  const list = document.getElementById('review-list');
+  list.innerHTML = '';
+  answers.forEach(a => {
+    const row = document.createElement('div');
+    row.className = 'review-item';
+    row.innerHTML = `
+      <div class="rf">${flagImg(a.code, a.name, "rf-img")}</div>
+      <div class="rt">
+        <b>${a.name}</b>
+        ${a.correct ? `پاسخ درست: ${a.correctLabel}` : `پاسخ تو: ${a.chosenLabel} — پاسخ درست: ${a.correctLabel}`}
+      </div>
+      <span class="tag ${a.correct ? 'ok':'no'}">${a.correct ? 'درست':'نادرست'}</span>
+    `;
+    list.appendChild(row);
+  });
+
+  goTo('result');
+}
+</script>
+</body>
+</html>
